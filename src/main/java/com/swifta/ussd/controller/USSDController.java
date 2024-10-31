@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class USSDController {
 
     @Timed(percentiles = {0.5, 0.95, 0.999}, histogram = true)
     @PostMapping(value = "/v1/process", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public USSDResponse processRequest(@Valid USSDRequest request) {
+    public USSDResponse processRequest(@RequestBody @Valid USSDRequest request) {
         log.info(request.getMsisdn() + " sends USSDRequest -> {}", request);
         USSDResponse ussdResponse = getUssdResponse(request);
 

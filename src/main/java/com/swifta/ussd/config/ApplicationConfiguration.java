@@ -51,8 +51,8 @@ public class ApplicationConfiguration {
     }
 
     //Micrometer timer
-    @Bean
-    public TimedAspect timedAspect(MeterRegistry registry) {
-        return new TimedAspect(registry);
-    }
+//    @Bean
+//    public TimedAspect timedAspect(MeterRegistry registry) {
+//        return new TimedAspect(registry);
+//    }
 }

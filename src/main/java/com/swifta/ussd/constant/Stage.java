@@ -12,7 +12,6 @@ public class Stage {
     public static final String KYC_CONFIRMATION = "kyc_confirmation";
     public static final String KYC_VALID = "kyc_valid";
     public static final String KYC_INVALID = "kyc_invalid";
-    public static final String DOB_INVALID = "dob_invalid";
     public static final String PURCHASE_OPTION = "purchase_option";
     public static final String EVENT_TYPE = "event_type";
     public static final String EVENT = "event";
@@ -25,6 +24,4 @@ public class Stage {
     public static final String MOMO_PIN = "momo_pin";
     public static final String PAYMENT_CONFIRMATION = "payment_confirmation";
     public static final String SMS_TICKET_CONFIRMATION = "sms_ticket_confirmation";
-    public static final String PHONE_INVALID = "phone_invalid";
-    public static final String NUMBER_OF_TICKET_INVALID = "number_of_ticket_invalid";
 }

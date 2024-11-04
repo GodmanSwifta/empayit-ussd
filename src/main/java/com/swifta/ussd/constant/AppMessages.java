@@ -14,7 +14,7 @@ public class AppMessages {
     public static final String T_AND_C_MESSAGE = "I identify MTN and EmpayIT. I accept the T&C in accordance to EmpayIT policy\n1. Yes\n2. No";
     public static final String T_AND_C_DECLINE_MESSAGE = "Dear Customer\nYou need to accept T&C to use this service\nThank you!";
     public static final String DOB_MESSAGE = "Enter date of birth";
-    public static final String DOB_INVALID_MESSAGE = "Please enter valid Date of Birth";
+    public static final String DOB_RETRY_MESSAGE = "Dear Customer,\n\nPlease enter valid Date of Birth";
     public static final String KYC_CONFIRMATION_MESSAGE = "Please confirm KYC details\nName: {0}\nDOB: {1}\n1. Correct\n0. Back";
     public static final String KYC_VALID_MESSAGE = "Dear {0}.\nYour data has been registered successfully. Thank you for your interest in EmpayIT.";
     public static final String MAIN_MENU_MESSAGE = "Welcome to EmpayIT\n1. Purchase Ticket\n2. ------- Ticket\n3. ------ Ticket\n4. ------ Ticket";
@@ -30,6 +30,6 @@ public class AppMessages {
     public static final String MOMO_PIN_MESSAGE = "Enter MoMo Pin";
     public static final String PAYMENT_CONFIRMATION_MESSAGE = "Payment Confirmation\n\n--------------------";
     public static final String SMS_TICKET_CONFIRMATION_MESSAGE = "SMS Ticket Confirmation";
-    public static final String PHONE_INVALID_MESSAGE = "Dear Customer\n\nPlease enter a valid Phone number";
-    public static final String NUMBER_OF_TICKET_INVALID_MESSAGE = "Enter number of tickets";
+    public static final String PHONE_RETRY_MESSAGE = "Dear Customer\n\nPlease enter a valid Phone number";
+    public static final String NUMBER_OF_TICKET_RETRY_MESSAGE = "Please enter a valid number of tickets";
 }

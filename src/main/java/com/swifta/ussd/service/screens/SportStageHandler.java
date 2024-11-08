@@ -6,38 +6,26 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.PURCHASE_OPTION_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.*;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class PurchaseOptionStageHandler implements StageHandler {
+public class SportStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        String input = session.getUssdInput();
-        setStageParameters(input);
-        session.setCurrentStage(EVENT_TYPE);
-    }
-
-    private void setStageParameters(String input) {
-        switch (input) {
-            case "1":
-                break;
-            case "2":
-                break;
-        }
+        session.setCurrentStage(SPORT_EVENT);
     }
 
     @Override
     public String getStage() {
-        return PURCHASE_OPTION;
+        return SPORT;
     }
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(PURCHASE_OPTION_MESSAGE)
+                .applicationResponse(SPORT_MESSAGE)
                 .freeflow(Freeflow.FB)
                 .build();
     }

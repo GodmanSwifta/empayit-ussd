@@ -37,7 +37,10 @@ public class NumberOfTicketStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
-        String  message = session.getData(NUMBER_OF_TICKET_RETRY).equalsIgnoreCase("true") ? NUMBER_OF_TICKET_RETRY_MESSAGE : NUMBER_OF_TICKET_MESSAGE;
+        String  message = NUMBER_OF_TICKET_MESSAGE;
+        if(session.getData(NUMBER_OF_TICKET_RETRY) != null ) {
+            message = session.getData(NUMBER_OF_TICKET_RETRY).equalsIgnoreCase("true") ? NUMBER_OF_TICKET_RETRY_MESSAGE : NUMBER_OF_TICKET_MESSAGE;
+        }
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(message)

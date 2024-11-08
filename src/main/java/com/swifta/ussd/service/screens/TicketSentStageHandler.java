@@ -1,34 +1,32 @@
 package com.swifta.ussd.service.screens;
 
-import com.swifta.ussd.constant.PropertyKeys;
 import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
-
-import static com.swifta.ussd.constant.AppMessages.*;
-import static com.swifta.ussd.constant.Stage.*;
+import static com.swifta.ussd.constant.AppMessages.TICKET_SENT_MESSAGE;
+import static com.swifta.ussd.constant.Stage.TICKET_LIST;
+import static com.swifta.ussd.constant.Stage.TICKET_SENT;
 
 @Component
-public class MovieTicketStageHandler implements StageHandler {
+public class TicketSentStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(TICKET_MODE);
+        //nothing
     }
 
     @Override
     public String getStage() {
-        return MOVIE_TICKET_OPTION;
+        return TICKET_SENT;
     }
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(MOVIE_TICKET_OPTION_MESSAGE)
+                .applicationResponse(TICKET_SENT_MESSAGE)
                 .freeflow(Freeflow.FB)
                 .build();
     }

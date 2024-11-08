@@ -6,27 +6,27 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.MOMO_PIN_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.PAYMENT_OPTION_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.SPORT_CATEGORY_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.SPORT_EVENT_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class MomoPinStageHandler implements StageHandler {
+public class SportCategoryStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(PAYMENT_CONFIRMATION);
+        session.setCurrentStage(NUMBER_OF_TICKET);
     }
 
     @Override
     public String getStage() {
-        return MOMO_PIN;
+        return SPORT_CATEGORY;
     }
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(MOMO_PIN_MESSAGE)
+                .applicationResponse(SPORT_CATEGORY_MESSAGE)
                 .freeflow(Freeflow.FC)
                 .build();
     }

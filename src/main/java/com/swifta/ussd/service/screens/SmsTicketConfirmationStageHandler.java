@@ -28,7 +28,7 @@ public class SmsTicketConfirmationStageHandler implements StageHandler {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(SMS_TICKET_CONFIRMATION_MESSAGE)
-                .freeflow(Freeflow.FC)
+                .freeflow(Freeflow.FB)
                 .build();
     }
 }

@@ -21,15 +21,24 @@ public class AppMessages {
     public static final String PURCHASE_OPTION_MESSAGE = "Select an option\n1. Self Purchase\n2. Agent Purchase";
     public static final String EVENT_TYPE_MESSAGE = "Select Event type\n1. Transport\n2. -------";
     public static final String EVENT_MESSAGE = "Select Event\n1. -----\n2. ------\n3. ------\n4. ------";
+    public static final String EVENT_OPTION_MESSAGE = "Select Event\n1. -----\n2. ------\n3. ------\n4. ------";
     public static final String MOVIE_TICKET_OPTION_MESSAGE = "Select Movie Ticket\n1. ----\n2. ------\n3. ------";
+    public static final String SPORT_MESSAGE = "Select Sport\n1. Football\n2. ------\n3. Wrestling";
+    public static final String SPORT_EVENT_MESSAGE = "Select Event\n1. National Cup Qualifier\n2. ------";
+    public static final String SPORT_CATEGORY_MESSAGE = "Select Category\n1. Section A\n2. Section B\n3. Section C";
     public static final String TICKET_MODE_MESSAGE = "Select Ticket -----\n1. VIP\n2. ----\n3. Regular";
     public static final String PHONE_MESSAGE = "Please enter Phone number";
     public static final String NUMBER_OF_TICKET_MESSAGE = "Enter number of tickets";
     public static final String TICKET_CONFIRMATION_MESSAGE = "Please confirm ticket -----";
-    public static final String PAYMENT_OPTION_MESSAGE = "Select payment option\n\n1. MTN MoMo";
+    public static final String PAYMENT_OPTION_MESSAGE = "Select payment option\n1. MTN MoMo\n2. Promocode";
     public static final String MOMO_PIN_MESSAGE = "Enter MoMo Pin";
+    public static final String PROMOCODE_MESSAGE = "Enter Event promocode";
     public static final String PAYMENT_CONFIRMATION_MESSAGE = "Payment Confirmation\n\n--------------------";
     public static final String SMS_TICKET_CONFIRMATION_MESSAGE = "SMS Ticket Confirmation";
     public static final String PHONE_RETRY_MESSAGE = "Dear Customer\n\nPlease enter a valid Phone number";
     public static final String NUMBER_OF_TICKET_RETRY_MESSAGE = "Please enter a valid number of tickets";
+    public static final String TICKET_LIST_MESSAGE = "Event Ticket ID\nTicket ID/9897302/Oloture Dro";
+    public static final String TICKET_RESEND_CONFIRMATION_MESSAGE = "Please confirm you want to resend to 08090989098\n1. Yes\n2. No";
+    public static final String TICKET_SENT_MESSAGE = "Dear Customer,\nYour ticket details has been sent. Thank you for your interest in EmpayIT.";
+    public static final String SUPPORT_MESSAGE = "Contact Support on 08073763722";
 }

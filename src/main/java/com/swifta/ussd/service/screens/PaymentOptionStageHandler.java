@@ -8,13 +8,27 @@ import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.PAYMENT_OPTION_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.TICKET_CONFIRMATION_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.PAYMENT_METHOD;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
 public class PaymentOptionStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(MOMO_PIN);
+        String input = session.getUssdInput();
+        setStageParameters(input, session);
+        session.setCurrentStage(PAYMENT_CHANNEL);
+    }
+
+    private void setStageParameters(String input, UssdSession session) {
+        switch (input) {
+            case "1":
+                session.setData(PAYMENT_METHOD, "mtn_momo");
+                break;
+            case "2":
+                session.setData(PAYMENT_METHOD, "promocode");
+                break;
+        }
     }
 
     @Override

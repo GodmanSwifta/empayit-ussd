@@ -6,13 +6,14 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
-import static com.swifta.ussd.constant.PropertyKeys.FLOW;
+import static com.swifta.ussd.constant.AppMessages.EVENT_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.EVENT_OPTION_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.EVENT_OPTION_VALUE;
+//import static com.swifta.ussd.constant.PropertyKeys.TICKET_OPTION;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class MainMenuStageHandler implements StageHandler {
+public class EventOptionStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
@@ -23,41 +24,35 @@ public class MainMenuStageHandler implements StageHandler {
         String nextStage = null;
         switch (input) {
             case "1":
-                nextStage = PURCHASE_OPTION;
+                session.setData(EVENT_OPTION_VALUE, "Coconut");
                 break;
             case "2":
-                session.setData(FLOW, "resend_ticket");
-                nextStage = PHONE;
+                session.setData(EVENT_OPTION_VALUE, "Sport");
+                nextStage = SPORT;
                 break;
             case "3":
-                session.setData(FLOW, "refund_ticket");
-                nextStage = SUPPORT;
+                session.setData(EVENT_OPTION_VALUE, "Theatre");
                 break;
             case "4":
-                session.setData(FLOW, "ticket_validation");
-                nextStage = SUPPORT;
-                break;
-            case "5":
-                session.setData(FLOW, "contact_us");
-                nextStage = SUPPORT;
+                session.setData(EVENT_OPTION_VALUE, "Movie");
+                nextStage = MOVIE_TICKET_OPTION;
                 break;
             default:
-                break;
         }
         return nextStage;
     }
 
     @Override
     public String getStage() {
-        return MAIN_MENU;
+        return EVENT_OPTION;
     }
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(MAIN_MENU_MESSAGE)
-                .freeflow(Freeflow.FC)
+                .applicationResponse(EVENT_OPTION_MESSAGE)
+                .freeflow(Freeflow.FB)
                 .build();
     }
 }

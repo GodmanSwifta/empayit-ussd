@@ -14,14 +14,22 @@ public class Stage {
     public static final String KYC_INVALID = "kyc_invalid";
     public static final String PURCHASE_OPTION = "purchase_option";
     public static final String EVENT_TYPE = "event_type";
-    public static final String EVENT = "event";
+//    public static final String EVENT = "event";
+    public static final String EVENT_OPTION = "event_option";
     public static final String MOVIE_TICKET_OPTION = "movie_ticket_option";
+    public static final String SPORT = "sport";
+    public static final String SPORT_EVENT = "sport_event";
+    public static final String SPORT_CATEGORY = "sport_category";
     public static final String TICKET_MODE = "ticket_mode";
     public static final String PHONE = "phone";
     public static final String NUMBER_OF_TICKET = "number_of_tickets";
     public static final String TICKET_CONFIRMATION = "ticket_confirmation";
     public static final String PAYMENT_OPTION = "payment_option";
-    public static final String MOMO_PIN = "momo_pin";
+    public static final String PAYMENT_CHANNEL = "payment_channel";
     public static final String PAYMENT_CONFIRMATION = "payment_confirmation";
     public static final String SMS_TICKET_CONFIRMATION = "sms_ticket_confirmation";
+    public static final String TICKET_LIST = "ticket_list";
+    public static final String TICKET_SENT = "ticket_sent";
+    public static final String TICKET_RESEND_CONFIRMATION = "ticket_resend_confirmation";
+    public static final String SUPPORT = "support";
 }

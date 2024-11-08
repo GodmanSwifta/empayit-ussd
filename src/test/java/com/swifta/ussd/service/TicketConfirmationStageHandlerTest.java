@@ -31,7 +31,7 @@ public class TicketConfirmationStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "SMS Ticket Confirmation";
+        String expected = "Please confirm ticket -----";
 
         USSDResponse ussdResponse = ticketConfirmationStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

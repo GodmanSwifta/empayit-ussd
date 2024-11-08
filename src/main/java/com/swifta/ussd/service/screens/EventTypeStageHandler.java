@@ -14,7 +14,18 @@ import static com.swifta.ussd.constant.Stage.*;
 public class EventTypeStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(EVENT);
+        String input = session.getUssdInput();
+        setStageParameters(input);
+        session.setCurrentStage(EVENT_OPTION);
+    }
+
+    private void setStageParameters(String input) {
+        switch (input) {
+            case "1":
+                break;
+            case "2":
+                break;
+        }
     }
 
     @Override

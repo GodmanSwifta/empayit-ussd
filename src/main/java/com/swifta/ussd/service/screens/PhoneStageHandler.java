@@ -17,17 +17,25 @@ public class PhoneStageHandler implements StageHandler {
     public void processStage(UssdSession session) {
 
         String phone = session.getUssdInput();
-        if(isValid(phone, session)) {
+        if(isValid(phone)) {
             session.setData(PHONE_RETRY, "false");
-            session.setCurrentStage(NUMBER_OF_TICKET);
+            session.setCurrentStage(getNextStageByFlow(session));
         }
         session.setData(PHONE_RETRY, "true");
     }
 
-    private boolean isValid(String noOfTicket, UssdSession session) {
+    private boolean isValid(String phone) {
 
 
         return true;
+    }
+
+    private String getNextStageByFlow(UssdSession session) {
+        if(session.getData(FLOW).equalsIgnoreCase("resend_ticket")) {
+            return TICKET_LIST;
+        } else {
+            return NUMBER_OF_TICKET;
+        }
     }
 
     @Override
@@ -37,7 +45,10 @@ public class PhoneStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
-        String  message = session.getData(PHONE_RETRY).equalsIgnoreCase("true") ? PHONE_RETRY_MESSAGE : PHONE_MESSAGE;
+        String  message = PHONE_MESSAGE;
+        if(session.getData(PHONE_RETRY) != null ) {
+            message = session.getData(PHONE_RETRY).equalsIgnoreCase("true") ? PHONE_RETRY_MESSAGE : PHONE_MESSAGE;
+        }
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(message)

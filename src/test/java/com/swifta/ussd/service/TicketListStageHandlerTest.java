@@ -42,7 +42,7 @@ public class TicketListStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Event Ticket ID\nTicket ID/9897302/Oloture Dro";
+        String expected = "Event Ticket ID\n1. Ticket ID/9897302/Oloture Dro";
 
         USSDResponse ussdResponse = ticketListStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

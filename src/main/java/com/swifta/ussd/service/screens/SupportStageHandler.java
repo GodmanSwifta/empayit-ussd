@@ -27,7 +27,7 @@ public class SupportStageHandler implements StageHandler {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(SUPPORT_MESSAGE)
-                .freeflow(Freeflow.FC)
+                .freeflow(Freeflow.FB)
                 .build();
     }
 }

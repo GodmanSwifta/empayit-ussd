@@ -30,7 +30,7 @@ public class EventTypeStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Select Event type\n1. Transport\n2. -------";
+        String expected = "Select Event type\n1. Transport\n2. Event";
 
         USSDResponse ussdResponse = eventTypeStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

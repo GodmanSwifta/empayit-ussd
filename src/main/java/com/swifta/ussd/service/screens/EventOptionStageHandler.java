@@ -6,10 +6,8 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.EVENT_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.EVENT_OPTION_MESSAGE;
 import static com.swifta.ussd.constant.PropertyKeys.EVENT_OPTION_VALUE;
-//import static com.swifta.ussd.constant.PropertyKeys.TICKET_OPTION;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
@@ -53,6 +51,7 @@ public class EventOptionStageHandler implements StageHandler {
                 .msisdn(session.getMsisdn())
                 .applicationResponse(EVENT_OPTION_MESSAGE)
                 .freeflow(Freeflow.FB)
-                .build();
+                .build()
+                ;
     }
 }

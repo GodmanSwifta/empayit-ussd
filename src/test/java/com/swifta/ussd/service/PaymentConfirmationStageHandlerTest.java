@@ -43,7 +43,7 @@ public class PaymentConfirmationStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Payment Confirmation\n\n--------------------";
+        String expected = "You have approved a debit of N4000 initiated by transaction ID: 354352";
 
         USSDResponse ussdResponse = paymentConfirmationStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

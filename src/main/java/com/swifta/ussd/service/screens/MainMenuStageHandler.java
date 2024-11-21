@@ -23,6 +23,7 @@ public class MainMenuStageHandler implements StageHandler {
         String nextStage = null;
         switch (input) {
             case "1":
+                session.setData(FLOW, "purchase");
                 nextStage = PURCHASE_OPTION;
                 break;
             case "2":
@@ -54,6 +55,7 @@ public class MainMenuStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+        System.out.println("MAIN PAGE");
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(MAIN_MENU_MESSAGE)

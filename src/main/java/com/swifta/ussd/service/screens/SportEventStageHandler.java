@@ -7,7 +7,6 @@ import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.SPORT_EVENT_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.SPORT_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component

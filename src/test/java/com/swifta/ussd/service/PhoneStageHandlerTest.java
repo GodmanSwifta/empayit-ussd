@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static com.swifta.ussd.constant.Stage.NUMBER_OF_TICKET;
-import static com.swifta.ussd.constant.Stage.TICKET_CONFIRMATION;
+import static com.swifta.ussd.constant.PropertyKeys.FLOW;
+import static com.swifta.ussd.constant.Stage.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,10 +32,22 @@ public class PhoneStageHandlerTest {
     }
 
     @Test
-    public void processStage() {
+    public void processStageForNumberOfTicket() {
         String expected = NUMBER_OF_TICKET;
 
         UssdSession session = MockGenerator.generateSession("id");
+        session.setData(FLOW, "demo");
+
+        phoneStageHandler.processStage(session);
+        assertEquals(expected, session.getCurrentStage());
+    }
+
+    @Test
+    public void processStageForTicketList() {
+        String expected = TICKET_LIST;
+
+        UssdSession session = MockGenerator.generateSession("id");
+        session.setData(FLOW, "resend_ticket");
 
         phoneStageHandler.processStage(session);
         assertEquals(expected, session.getCurrentStage());

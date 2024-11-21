@@ -55,7 +55,7 @@ public class MainMenuStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Welcome to EmpayIT\n1. Purchase Ticket\n2. ------- Ticket\n3. ------ Ticket\n4. ------ Ticket";
+        String expected = "Welcome to EmpayIT\n1. Purchase Ticket\n2. Resend Ticket\n3. Refund Ticket\n4. Ticket Validation\n5. Contact Us";
 
         USSDResponse ussdResponse = mainMenuStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

@@ -8,4 +8,5 @@ public class PropertyKeys {
     public static final String EVENT_OPTION_VALUE = "event_option_value";
     public static final String PAYMENT_METHOD = "payment_method";
     public static final String FLOW = "flow";
+    public static final String PURCHASE_OPTION_TYPE = "purchase_option_type";
 }

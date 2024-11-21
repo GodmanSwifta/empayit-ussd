@@ -38,7 +38,7 @@ public class EventTypeStageHandler implements StageHandler {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(EVENT_TYPE_MESSAGE)
-                .freeflow(Freeflow.FB)
+                .freeflow(Freeflow.FC)
                 .build();
     }
 }

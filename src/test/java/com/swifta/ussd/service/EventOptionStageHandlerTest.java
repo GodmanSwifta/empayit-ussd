@@ -28,7 +28,7 @@ public class EventOptionStageHandlerTest {
         UssdSession session = MockGenerator.generateSession("id");
         session.setUssdInput("2");
 
-        eventOptionStageHandler.loadPage(session);
+        eventOptionStageHandler.processStage(session);
 
         assertEquals(expected, session.getCurrentStage());
     }
@@ -40,7 +40,7 @@ public class EventOptionStageHandlerTest {
         UssdSession session = MockGenerator.generateSession("id");
         session.setUssdInput("4");
 
-        eventOptionStageHandler.loadPage(session);
+        eventOptionStageHandler.processStage(session);
 
         assertEquals(expected, session.getCurrentStage());
     }
@@ -54,7 +54,7 @@ public class EventOptionStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Select Event\n1. -----\n2. ------\n3. ------\n4. ------";
+        String expected = "Select Event\n1. Concert\n2. Sporting Events\n3. Theatre\n4. Movies";
 
         USSDResponse ussdResponse = eventOptionStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

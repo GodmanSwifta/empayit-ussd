@@ -43,7 +43,7 @@ public class PaymentOptionStageHandlerTest {
     @Test
     public void loadPage() {
         UssdSession session = MockGenerator.generateSession("id");
-        String expected = "Select payment option\n1. MTN MoMo\n2. Promocode";
+        String expected = "Select payment option\n1. MTN MoMo\n2. Promo Code";
 
         USSDResponse ussdResponse = paymentOptionStageHandler.loadPage(session);
         assertEquals(expected, ussdResponse.getApplicationResponse());

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.PURCHASE_OPTION_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.PURCHASE_OPTION_TYPE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
@@ -15,15 +16,17 @@ public class PurchaseOptionStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
-        setStageParameters(input);
+        setStageParameters(input, session);
         session.setCurrentStage(EVENT_TYPE);
     }
 
-    private void setStageParameters(String input) {
+    private void setStageParameters(String input, UssdSession session) {
         switch (input) {
             case "1":
+                session.setData(PURCHASE_OPTION_TYPE, "self");
                 break;
             case "2":
+                session.setData(PURCHASE_OPTION_TYPE, "agent");
                 break;
         }
     }

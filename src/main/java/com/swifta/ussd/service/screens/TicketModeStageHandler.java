@@ -22,7 +22,7 @@ public class TicketModeStageHandler implements StageHandler {
         if(session.getData(FLOW).equalsIgnoreCase("resend_ticket")) {
             return TICKET_LIST;
         } else {
-            if(PURCHASE_OPTION_TYPE.equalsIgnoreCase("self")) {
+            if(session.getData(PURCHASE_OPTION_TYPE).equalsIgnoreCase("self")) {
                 return NUMBER_OF_TICKET;
             }
             return PHONE;

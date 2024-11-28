@@ -8,13 +8,18 @@ import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.TICKET_CONFIRMATION_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.TICKET_MODE_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.PURCHASE_OPTION_TYPE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
 public class TicketConfirmationStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(PAYMENT_OPTION);
+        if(session.getData(PURCHASE_OPTION_TYPE).equalsIgnoreCase("self")) {
+            session.setCurrentStage(PAYMENT_OPTION);
+            return;
+        }
+        session.setCurrentStage(PAYMENT_CHANNEL);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.*;
 import static com.swifta.ussd.constant.PropertyKeys.PAYMENT_METHOD;
+import static com.swifta.ussd.constant.PropertyKeys.PURCHASE_OPTION_TYPE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
@@ -24,8 +25,13 @@ public class PaymentChannelStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
-        String option = session.getData(PAYMENT_METHOD);
-        String message = option.equalsIgnoreCase("mtn_momo") ? MOMO_PIN_MESSAGE : PROMOCODE_MESSAGE;
+        String message = null;
+        if(session.getData(PURCHASE_OPTION_TYPE).equalsIgnoreCase("agent")){
+            message = MOMO_PIN_MESSAGE;
+        } else {
+            String option = session.getData(PAYMENT_METHOD);
+            message = option.equalsIgnoreCase("mtn_momo") ? MOMO_PIN_MESSAGE : PROMOCODE_MESSAGE;
+        }
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(message)

@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static com.swifta.ussd.constant.PropertyKeys.PAYMENT_METHOD;
+import static com.swifta.ussd.constant.PropertyKeys.PURCHASE_OPTION_TYPE;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,6 +32,7 @@ public class PaymentChannelStageHandlerTest {
     @Test
     public void loadPageMomoPin() {
         UssdSession session = MockGenerator.generateSession("id");
+        session.setData(PURCHASE_OPTION_TYPE, "agent");
         session.setData(PAYMENT_METHOD, "mtn_momo");
         String expected = "Enter MoMo Pin";
 
@@ -41,6 +43,7 @@ public class PaymentChannelStageHandlerTest {
     @Test
     public void loadPagePromocode() {
         UssdSession session = MockGenerator.generateSession("id");
+        session.setData(PURCHASE_OPTION_TYPE, "self");
         session.setData(PAYMENT_METHOD, "promocode");
         String expected = "Enter Event promocode";
 

@@ -45,6 +45,12 @@ public class ApplicationConfiguration {
     }
 
     private ClientHttpRequestFactory getRequestFactory() {
+
+    //Micrometer timer
+//    @Bean
+//    public TimedAspect timedAspect(MeterRegistry registry) {
+//        return new TimedAspect(registry);
+//    }
         return new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
     }
 }

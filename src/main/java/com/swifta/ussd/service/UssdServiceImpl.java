@@ -7,6 +7,8 @@ import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.repository.UssdSessionRepository;
 import com.swifta.ussd.service.screens.InvalidInputStageHandler;
+import com.swifta.ussd.service.screens.MainMenuStageHandler;
+import com.swifta.ussd.service.screens.RsaOptionsStageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.swifta.ussd.constant.AppMessages.INCORRECT_SHORTCODE_PAGE;
+import static com.swifta.ussd.constant.Stage.RSA_OPTIONS;
 
 @Slf4j
 @Service
@@ -22,16 +25,20 @@ public class UssdServiceImpl implements UssdService {
     private final UssdRequestService ussdRequestService;
     private final UssdSessionRepository ussdSessionRepository;
     private final InvalidInputStageHandler invalidInputStageHandler;
+    private final RsaOptionsStageHandler rsaOptionsStageHandler;
+    private final MainMenuStageHandler mainMenuStageHandler;
 
     public UssdServiceImpl(
             @Value("${service.short-code}") String shortCode,
             UssdRequestService ussdRequestService,
             UssdSessionRepository ussdSessionRepository,
-            InvalidInputStageHandler invalidInputStageHandler) {
+            InvalidInputStageHandler invalidInputStageHandler, RsaOptionsStageHandler rsaOptionsStageHandler, MainMenuStageHandler mainMenuStageHandler) {
         this.shortCode = shortCode;
         this.ussdRequestService = ussdRequestService;
         this.ussdSessionRepository = ussdSessionRepository;
         this.invalidInputStageHandler = invalidInputStageHandler;
+        this.rsaOptionsStageHandler = rsaOptionsStageHandler;
+        this.mainMenuStageHandler = mainMenuStageHandler;
     }
 
     @Override
@@ -46,14 +53,15 @@ public class UssdServiceImpl implements UssdService {
             }
             log.info("new ussd request");
             if (isNewCustomer(session.getMsisdn(), session)) {
-                //TODO
+                session.setCurrentStage(RSA_OPTIONS);
+                ussdSessionRepository.save(session);
+                return rsaOptionsStageHandler.loadPage(session);
             }
             session.setCurrentStage(Stage.MAIN_MENU);
-            //TODO
-            /*ussdSessionRepository.save(session);
-            return mainMenuStageHandler.loadPage(session);*/
+            ussdSessionRepository.save(session);
+            return mainMenuStageHandler.loadPage(session);
         }
-
+        log.info("old ussd request");
         session = fetchExistingSession(request);
         log.info("ussd on stage - {} phone - {}", session.getCurrentStage(), session.getMsisdn());
         USSDResponse response = ussdRequestService.handleRequest(session, request);
@@ -78,6 +86,7 @@ public class UssdServiceImpl implements UssdService {
 
     private boolean isNewCustomer(String msisdn, UssdSession session) {
         //TODO
-        return true;
+//        return true;
+        return false;
     }
 }

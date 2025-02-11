@@ -1,8 +1,6 @@
 package com.swifta.ussd.config;
 
 import com.swifta.ussd.interceptors.RequestResponseLoggingInterceptor;
-import io.micrometer.core.aop.TimedAspect;
-import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +21,7 @@ import java.util.List;
 public class ApplicationConfiguration {
 
 
-    @Bean(name = "applicactionEventMulticaster")
+    @Bean(name = "applicationEventMulticaster")
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
         SimpleApplicationEventMulticaster eventMulticaster
                 = new SimpleApplicationEventMulticaster();
@@ -47,12 +45,12 @@ public class ApplicationConfiguration {
     }
 
     private ClientHttpRequestFactory getRequestFactory() {
-        return  new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
-    }
 
     //Micrometer timer
 //    @Bean
 //    public TimedAspect timedAspect(MeterRegistry registry) {
 //        return new TimedAspect(registry);
 //    }
+        return new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+    }
 }

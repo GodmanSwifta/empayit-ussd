@@ -15,4 +15,9 @@ public class UssdProductServiceImpl implements UssdProductService{
         return false;
     }
 
+    @Override
+    public Void processRefund(String phoneNumber, String numberOfTicket) {
+        return null;
+    }
+
 }

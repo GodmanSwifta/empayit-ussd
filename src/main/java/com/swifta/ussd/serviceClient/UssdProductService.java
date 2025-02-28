@@ -5,6 +5,7 @@ public interface UssdProductService {
 
     Void processRefund(String phoneNumber, String numberOfTicket);
 
-
-
+    Void ValidateAgentTicketInfo(String numberOfTickets);
+    Void ticketDetail( String numberOfTicket);
+    Void validatePin(String momoPin);
 }

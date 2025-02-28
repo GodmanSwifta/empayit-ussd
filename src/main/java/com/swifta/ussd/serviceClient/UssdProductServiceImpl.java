@@ -20,4 +20,19 @@ public class UssdProductServiceImpl implements UssdProductService{
         return null;
     }
 
+    @Override
+    public Void ValidateAgentTicketInfo(String numberOfTickets) {
+        return null;
+    }
+
+    @Override
+    public Void ticketDetail(String numberOfTicket) {
+        return null;
+    }
+
+    @Override
+    public Void validatePin(String momoPin) {
+        return null;
+    }
+
 }

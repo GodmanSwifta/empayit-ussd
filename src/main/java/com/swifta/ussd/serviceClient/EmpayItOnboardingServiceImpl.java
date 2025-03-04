@@ -7,12 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
-
-import java.time.LocalDate;
-import java.util.Arrays;
 
 import static io.swagger.v3.core.util.AnnotationsUtils.getHeaders;
 
@@ -21,17 +17,18 @@ import static io.swagger.v3.core.util.AnnotationsUtils.getHeaders;
 public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
     private final RestOperations restOperations;
-    private final String simRegUrl;
+    private final String coreBaseUrl;
 
-    public EmpayItOnboardingServiceImpl(RestOperations restOperations, String simRegUrl) {
+    public EmpayItOnboardingServiceImpl(RestOperations restOperations, String simRegUrl, String coreBaseUrl) {
         this.restOperations = restOperations;
-        this.simRegUrl = simRegUrl;
+        this.coreBaseUrl = coreBaseUrl;
+
     }
 
 
     @Override
     public CustomerData validateCustomer(String phoneNumber) {
-        String url = simRegUrl.concat("/user-info?phoneNumber="+ phoneNumber);
+        String url = coreBaseUrl.concat("/customer-validate");
         HttpEntity<String> request = new HttpEntity<>(null,getHeaders(""));
 
         ResponseEntity<CustomerData> responseEntity;
@@ -54,7 +51,7 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
     @Override
     public CustomerData CreateCustomer(CreateCustomerRequest customerRequest) {
-        String url = simRegUrl.concat("/create-customer");
+        String url = coreBaseUrl.concat("/create-customer");
         HttpEntity<CreateCustomerRequest> httpEntity = new HttpEntity<>(customerRequest, getHeaders(""));
 
         ResponseEntity<CustomerData> responseEntity;
@@ -80,12 +77,10 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
 
 
- private HttpHeaders getHeaders(String token) {
-    HttpHeaders headers = new HttpHeaders();
-    if (token != null && !token.isEmpty()) {
-        headers.set("Authorization", "Bearer " + token);
+    private HttpHeaders getHeaders(String s) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
     }
-    headers.set("Content-Type", "application/json");
-    return headers;
-}
+
 }

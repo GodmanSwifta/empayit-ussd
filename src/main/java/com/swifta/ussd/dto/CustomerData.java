@@ -16,6 +16,8 @@ public class CustomerData {
     private String phoneNumber;
     @JsonProperty("id")
     private String id;
+    @JsonProperty
+    private LocalDate dob;
     @JsonProperty("first_name")
     private String firstName;
     @JsonProperty("last_name")

@@ -3,14 +3,16 @@ package com.swifta.ussd.serviceClient;
 
 import com.swifta.ussd.dto.CustomerData;
 import com.swifta.ussd.dto.request.CreateCustomerRequest;
+//import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
-import static io.swagger.v3.core.util.AnnotationsUtils.getHeaders;
+
 
 @Slf4j
 @Service
@@ -19,7 +21,8 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
     private final RestOperations restOperations;
     private final String coreBaseUrl;
 
-    public EmpayItOnboardingServiceImpl(RestOperations restOperations, String simRegUrl, String coreBaseUrl) {
+
+    public EmpayItOnboardingServiceImpl( RestOperations restOperations, @Value("${core.base.url}") String coreBaseUrl) {
         this.restOperations = restOperations;
         this.coreBaseUrl = coreBaseUrl;
 

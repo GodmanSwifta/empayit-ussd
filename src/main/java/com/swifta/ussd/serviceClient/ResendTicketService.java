@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ResendTicketService {
 
-    CustomerData phoneNumberValidation(String PhoneNumber);
+    CustomerData resendTicket(String phoneNumber);
 }

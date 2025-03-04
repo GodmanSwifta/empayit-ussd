@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ResendTicketServiceImpl implements ResendTicketService {
+
     @Override
-    public CustomerData phoneNumberValidation(String PhoneNumber) {
+    public CustomerData resendTicket(String phoneNumber) {
         return null;
     }
+
 }

@@ -2,16 +2,13 @@ package com.swifta.ussd.serviceClient;
 
 
 import com.swifta.ussd.dto.CustomerData;
-import com.swifta.ussd.dto.Dob;
-import com.swifta.ussd.dto.Id;
-import com.swifta.ussd.dto.simreg.SimRegInfo;
-import com.swifta.ussd.service.simreg.SimRegService;
+import com.swifta.ussd.dto.request.CreateCustomerRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
 import java.time.LocalDate;
@@ -24,32 +21,71 @@ import static io.swagger.v3.core.util.AnnotationsUtils.getHeaders;
 public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
     private final RestOperations restOperations;
+    private final String simRegUrl;
 
-    public EmpayItOnboardingServiceImpl(RestOperations restOperations) {
+    public EmpayItOnboardingServiceImpl(RestOperations restOperations, String simRegUrl) {
         this.restOperations = restOperations;
+        this.simRegUrl = simRegUrl;
     }
 
 
     @Override
-    public CustomerData validateCustomer(String dob) {
-        Dob dob1 = new Dob();
-        dob1.setDateOfBirth(LocalDate.parse(dob));
-       return null;
+    public CustomerData validateCustomer(String phoneNumber) {
+        String url = simRegUrl.concat("/user-info?phoneNumber="+ phoneNumber);
+        HttpEntity<String> request = new HttpEntity<>(null,getHeaders(""));
+
+        ResponseEntity<CustomerData> responseEntity;
+
+        try{
+            responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                    new ParameterizedTypeReference<CustomerData>() {});
+        }catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return null;
+            }
+            throw new RuntimeException("API Error: " + ex.getMessage());
+        }
+
+
+        return responseEntity.getBody();
     }
+
+
 
     @Override
-    public Id createCustomer(String Phone) {
-        return null;
+    public CustomerData CreateCustomer(CreateCustomerRequest customerRequest) {
+        String url = simRegUrl.concat("/create-customer");
+        HttpEntity<CreateCustomerRequest> httpEntity = new HttpEntity<>(customerRequest, getHeaders(""));
+
+        ResponseEntity<CustomerData> responseEntity;
+
+
+        try {
+            responseEntity = restOperations.exchange(
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+
+        } catch (HttpClientErrorException ex) {
+            throw new RuntimeException("Failed to create customer: " + ex.getMessage());
+        }
+
+
+        return responseEntity.getBody();
+
+
     }
 
 
-//
-//    private HttpHeaders getHeaders(String token) {
-//        log.info("THE USER TOKEN IS => {}", token);
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//        httpHeaders.set("token", token);
-//        return httpHeaders;
-//    }
+
+
+
+
+
+ private HttpHeaders getHeaders(String token) {
+    HttpHeaders headers = new HttpHeaders();
+    if (token != null && !token.isEmpty()) {
+        headers.set("Authorization", "Bearer " + token);
+    }
+    headers.set("Content-Type", "application/json");
+    return headers;
+}
 }

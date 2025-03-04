@@ -14,10 +14,8 @@ import java.time.LocalDate;
 public class CustomerData {
     @JsonProperty("phone_number")
     private String phoneNumber;
-    @JsonProperty("dob")
-    private LocalDate dob;
-    @JsonProperty("bvn")
-    private String bvn;
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("first_name")
     private String firstName;
     @JsonProperty("last_name")

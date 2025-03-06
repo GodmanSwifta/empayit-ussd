@@ -2,6 +2,7 @@ package com.swifta.ussd.service;
 
 import com.swifta.ussd.constant.PropertyKeys;
 import com.swifta.ussd.constant.Stage;
+import com.swifta.ussd.dto.CustomerData;
 import com.swifta.ussd.dto.USSDRequest;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
@@ -9,6 +10,9 @@ import com.swifta.ussd.repository.UssdSessionRepository;
 import com.swifta.ussd.service.screens.InvalidInputStageHandler;
 import com.swifta.ussd.service.screens.MainMenuStageHandler;
 import com.swifta.ussd.service.screens.RsaOptionsStageHandler;
+import com.swifta.ussd.serviceClient.EmpayItOnboardingService;
+import com.swifta.ussd.serviceClient.EmpayItOnboardingServiceImpl;
+import jakarta.validation.constraints.Null;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +20,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static com.swifta.ussd.constant.AppMessages.INCORRECT_SHORTCODE_PAGE;
+import static com.swifta.ussd.constant.PropertyKeys.*;
 import static com.swifta.ussd.constant.Stage.RSA_OPTIONS;
+import static java.util.Objects.isNull;
 
 @Slf4j
 @Service
@@ -27,18 +33,20 @@ public class UssdServiceImpl implements UssdService {
     private final InvalidInputStageHandler invalidInputStageHandler;
     private final RsaOptionsStageHandler rsaOptionsStageHandler;
     private final MainMenuStageHandler mainMenuStageHandler;
+    private final EmpayItOnboardingServiceImpl empayItOnboardingService;
 
     public UssdServiceImpl(
             @Value("${service.short-code}") String shortCode,
             UssdRequestService ussdRequestService,
             UssdSessionRepository ussdSessionRepository,
-            InvalidInputStageHandler invalidInputStageHandler, RsaOptionsStageHandler rsaOptionsStageHandler, MainMenuStageHandler mainMenuStageHandler) {
+            InvalidInputStageHandler invalidInputStageHandler, RsaOptionsStageHandler rsaOptionsStageHandler, MainMenuStageHandler mainMenuStageHandler, EmpayItOnboardingServiceImpl empayItOnboardingService) {
         this.shortCode = shortCode;
         this.ussdRequestService = ussdRequestService;
         this.ussdSessionRepository = ussdSessionRepository;
         this.invalidInputStageHandler = invalidInputStageHandler;
         this.rsaOptionsStageHandler = rsaOptionsStageHandler;
         this.mainMenuStageHandler = mainMenuStageHandler;
+        this.empayItOnboardingService = empayItOnboardingService;
     }
 
     @Override
@@ -85,8 +93,19 @@ public class UssdServiceImpl implements UssdService {
     }
 
     private boolean isNewCustomer(String msisdn, UssdSession session) {
-        //TODO
-//        return true;
-        return false;
+        CustomerData customerData = empayItOnboardingService.validateCustomer(msisdn);
+
+        if (!isNull(customerData)) {
+            session.setData(USER_EXIST, "1");
+            session.setData(CUSTOMER_ID, String.valueOf(customerData.getUserId()));
+            session.setData(FIRST_NAME, customerData.getFirstName());
+            session.setData(LAST_NAME, customerData.getLastName());
+            if (!isNull(customerData.getDob())) {
+                session.setData(CUSTOMER_DOB, customerData.getDob().toString());
+            }
+            return false;
+        }
+
+        return true;
     }
 }

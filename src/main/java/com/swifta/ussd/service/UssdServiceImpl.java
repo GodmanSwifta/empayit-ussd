@@ -9,10 +9,8 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.repository.UssdSessionRepository;
 import com.swifta.ussd.service.screens.InvalidInputStageHandler;
 import com.swifta.ussd.service.screens.MainMenuStageHandler;
-import com.swifta.ussd.service.screens.RsaOptionsStageHandler;
-import com.swifta.ussd.serviceClient.EmpayItOnboardingService;
+import com.swifta.ussd.service.screens.AcknowledgmentStageHandler;
 import com.swifta.ussd.serviceClient.EmpayItOnboardingServiceImpl;
-import jakarta.validation.constraints.Null;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,7 @@ public class UssdServiceImpl implements UssdService {
     private final UssdRequestService ussdRequestService;
     private final UssdSessionRepository ussdSessionRepository;
     private final InvalidInputStageHandler invalidInputStageHandler;
-    private final RsaOptionsStageHandler rsaOptionsStageHandler;
+    private final AcknowledgmentStageHandler acknowledgmentStageHandler;
     private final MainMenuStageHandler mainMenuStageHandler;
     private final EmpayItOnboardingServiceImpl empayItOnboardingService;
 
@@ -39,12 +37,12 @@ public class UssdServiceImpl implements UssdService {
             @Value("${service.short-code}") String shortCode,
             UssdRequestService ussdRequestService,
             UssdSessionRepository ussdSessionRepository,
-            InvalidInputStageHandler invalidInputStageHandler, RsaOptionsStageHandler rsaOptionsStageHandler, MainMenuStageHandler mainMenuStageHandler, EmpayItOnboardingServiceImpl empayItOnboardingService) {
+            InvalidInputStageHandler invalidInputStageHandler, AcknowledgmentStageHandler acknowledgmentStageHandler, MainMenuStageHandler mainMenuStageHandler, EmpayItOnboardingServiceImpl empayItOnboardingService) {
         this.shortCode = shortCode;
         this.ussdRequestService = ussdRequestService;
         this.ussdSessionRepository = ussdSessionRepository;
         this.invalidInputStageHandler = invalidInputStageHandler;
-        this.rsaOptionsStageHandler = rsaOptionsStageHandler;
+        this.acknowledgmentStageHandler = acknowledgmentStageHandler;
         this.mainMenuStageHandler = mainMenuStageHandler;
         this.empayItOnboardingService = empayItOnboardingService;
     }
@@ -63,7 +61,7 @@ public class UssdServiceImpl implements UssdService {
             if (isNewCustomer(session.getMsisdn(), session)) {
                 session.setCurrentStage(RSA_OPTIONS);
                 ussdSessionRepository.save(session);
-                return rsaOptionsStageHandler.loadPage(session);
+                return acknowledgmentStageHandler.loadPage(session);
             }
             session.setCurrentStage(Stage.MAIN_MENU);
             ussdSessionRepository.save(session);

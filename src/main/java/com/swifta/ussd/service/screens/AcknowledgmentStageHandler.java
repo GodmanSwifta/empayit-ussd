@@ -6,20 +6,26 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.RSA_OPTIONS_MESSAGE;
-import static com.swifta.ussd.constant.PropertyKeys.INVALID_INPUT_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.ACKNOWLEDGMENT_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class RsaOptionsStageHandler implements StageHandler {
+public class AcknowledgmentStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        String option = session.getUssdInput();
-        session.setCurrentStage(getStageOption(option));
-    }
+        int input = Integer.parseInt(session.getUssdInput());
 
-    private String getStageOption(String option) {
-        return option.equals("2") ? CANCLE : T_AND_C;
+        switch (input) {
+            case 1:
+                session.setCurrentStage(T_AND_C);
+                break;
+            case 2:
+                session.setCurrentStage(CANCEL);
+                break;
+            default:
+                session.setCurrentStage(INVALID_INPUT);
+
+        }
     }
 
     @Override
@@ -31,7 +37,7 @@ public class RsaOptionsStageHandler implements StageHandler {
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(RSA_OPTIONS_MESSAGE)
+                .applicationResponse(ACKNOWLEDGMENT_MESSAGE)
                 .freeflow(Freeflow.FC)
                 .build();
     }

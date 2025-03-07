@@ -5,7 +5,7 @@ public class Stage {
     public static final String INVALID_INPUT = "invalid_input";
 
     public static final String RSA_OPTIONS = "rsa_options";
-    public static final String CANCLE = "cancle";
+    public static final String CANCEL = "cancle";
     public static final String T_AND_C = "t_and_c";
     public static final String T_AND_C_DECLINE = "t_and_c_decline";
     public static final String DOB = "dob";

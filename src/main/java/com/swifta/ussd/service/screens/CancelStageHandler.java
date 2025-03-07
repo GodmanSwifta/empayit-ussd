@@ -7,11 +7,10 @@ import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.RSA_OPTIONS_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class CancleStageHandler implements StageHandler {
+public class CancelStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         //empty
@@ -19,7 +18,7 @@ public class CancleStageHandler implements StageHandler {
 
     @Override
     public String getStage() {
-        return CANCLE;
+        return CANCEL;
     }
 
     @Override

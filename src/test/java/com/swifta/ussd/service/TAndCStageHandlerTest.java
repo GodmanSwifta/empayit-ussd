@@ -4,7 +4,6 @@ import com.swifta.ussd.constant.Stage;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.mock.MockGenerator;
-import com.swifta.ussd.service.screens.RsaOptionsStageHandler;
 import com.swifta.ussd.service.screens.TAndCStageHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,25 +23,23 @@ public class TAndCStageHandlerTest {
     }
 
     @Test
-    public void processStageCancle() {
-        String expected = T_AND_C_DECLINE;
+    public void processStageCancel() {
 
         UssdSession session = MockGenerator.generateSession("id");
         session.setUssdInput("2");
 
         tAndCStageHandler.processStage(session);
-        assertEquals(expected, session.getCurrentStage());
+        assertEquals(T_AND_C_DECLINE, session.getCurrentStage());
     }
 
     @Test
     public void processStage() {
-        String expected = DOB;
 
         UssdSession session = MockGenerator.generateSession("id");
         session.setUssdInput("1");
 
         tAndCStageHandler.processStage(session);
-        assertEquals(expected, session.getCurrentStage());
+        assertEquals(DOB, session.getCurrentStage());
     }
 
     @Test

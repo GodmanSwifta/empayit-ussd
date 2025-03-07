@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 
-import static com.swifta.ussd.constant.AppMessages.DOB_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.KYC_CONFIRMATION_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
@@ -16,13 +15,20 @@ import static com.swifta.ussd.constant.Stage.*;
 public class KycConfirmationStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        //empty
-        String option = session.getUssdInput();
-        session.setCurrentStage(getConfirmationStageOption(option));
-    }
+        int input = Integer.parseInt(session.getUssdInput());
 
-    private String getConfirmationStageOption(String option) {
-        return option.equals("1") ? KYC_VALID : KYC_INVALID;
+        switch (input) {
+            case 1:
+                //TODO (GODMAN): CALL CREATE CUSTOMER ENDPOINT ON CORE
+                session.setCurrentStage(KYC_VALID);
+                break;
+            case 2:
+                session.setCurrentStage(KYC_INVALID);
+                break;
+            default:
+                session.setCurrentStage(INVALID_INPUT);
+
+        }
     }
 
     @Override
@@ -32,6 +38,7 @@ public class KycConfirmationStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+        //TODO (GODMAN): USE CORRECT NAMES
         String name = "John Statan";
         String dob = "1 March, 1998";
         return USSDResponse.builder()

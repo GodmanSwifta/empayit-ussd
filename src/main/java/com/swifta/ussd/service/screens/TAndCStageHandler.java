@@ -6,7 +6,6 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.RSA_OPTIONS_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.T_AND_C_MESSAGE;
 import static com.swifta.ussd.constant.PropertyKeys.DOB_RETRY;
 import static com.swifta.ussd.constant.Stage.*;
@@ -15,16 +14,21 @@ import static com.swifta.ussd.constant.Stage.*;
 public class TAndCStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        String option = session.getUssdInput();
-        session.setCurrentStage(getStageOption(option, session));
-    }
+        int input = Integer.parseInt(session.getUssdInput());
 
-    private String getStageOption(String option, UssdSession  session) {
-        if(option.equals("1")) {
-            session.setData(DOB_RETRY, "false");
-            return DOB;
+        switch (input) {
+            case 1:
+                session.setData(DOB_RETRY, "false");
+                //TODO (GODMAN): CALL SIM-REG API AND CONSTRUCT CREATE CUSTOMER REQUEST
+                session.setCurrentStage(DOB);
+                break;
+            case 2:
+                session.setCurrentStage(T_AND_C_DECLINE);
+                break;
+            default:
+                session.setCurrentStage(INVALID_INPUT);
+
         }
-        return T_AND_C_DECLINE;
     }
 
     @Override

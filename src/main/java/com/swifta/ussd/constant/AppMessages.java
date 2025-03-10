@@ -8,7 +8,7 @@ public class AppMessages {
     public static final String MID_NAVIGATION_MESSAGE = "\n0. Back\n99. Next";
     public static final String FIRST_NAVIGATION_MESSAGE = "\n99. Next";
 
-    public static final String RSA_OPTIONS_MESSAGE = "The service is provided by EmpayIT to enable customer purchase event tickets. \nWould you like to continue?" +
+    public static final String ACKNOWLEDGMENT_MESSAGE = "The service is provided by EmpayIT to enable customer purchase event tickets. \nWould you like to continue?" +
             "\n1. Proceed \n2. Cancel";
     public static final String CANCLE_MESSAGE = "Thanks for your interest in EmpayIT";
     public static final String T_AND_C_MESSAGE = "I identify MTN and EmpayIT. I accept the T&C in accordance to EmpayIT policy\n1. Yes\n2. No";

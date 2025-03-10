@@ -53,7 +53,7 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
 
     @Override
-    public CustomerData CreateCustomer(CreateCustomerRequest customerRequest) {
+    public CustomerData createCustomer(CreateCustomerRequest customerRequest) {
         String url = coreBaseUrl.concat("/create-customer");
         HttpEntity<CreateCustomerRequest> httpEntity = new HttpEntity<>(customerRequest, getHeaders(""));
 

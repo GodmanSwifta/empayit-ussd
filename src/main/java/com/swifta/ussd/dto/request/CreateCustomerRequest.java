@@ -4,11 +4,13 @@ package com.swifta.ussd.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateCustomerRequest {
     @JsonProperty("id")
     private long id;

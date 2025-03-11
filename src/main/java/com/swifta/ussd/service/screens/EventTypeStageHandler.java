@@ -8,27 +8,51 @@ import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.EVENT_TYPE_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.PURCHASE_OPTION_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.EVENT_TYPE_VALUE;
 import static com.swifta.ussd.constant.Stage.*;
+import static java.util.Objects.isNull;
+
 
 @Component
 public class EventTypeStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
-        setStageParameters(input);
+        setStageParameters(input, session );
         session.setCurrentStage(EVENT_OPTION);
     }
 
-    private void setStageParameters(String input) {
-        switch (input) {
+    private void setStageParameters(String input,UssdSession session) {
+        String stageParameter = null;
+        switch (input){
             case "1":
+                session.setData(EVENT_TYPE_VALUE, "Transport");
                 break;
+
             case "2":
+                session.setData(EVENT_TYPE_VALUE, "Events");
                 break;
+            default:
+                session.setCurrentStage(INVALID_INPUT);
         }
+
     }
 
-    @Override
+//    private void setStageParameters(String input) {
+//        switch (input) {
+//
+//            case VALID_EVENT:
+//                break;
+//            case INVALID_EVENT:
+//                break;
+//
+//            default:
+//                String invalidInput = INVALID_INPUT;
+//        }
+//    }
+
+
+@Override
     public String getStage() {
         return EVENT_TYPE;
     }

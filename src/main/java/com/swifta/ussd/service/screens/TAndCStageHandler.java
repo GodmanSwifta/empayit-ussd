@@ -15,8 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 
 import static com.swifta.ussd.constant.AppMessages.T_AND_C_MESSAGE;
-import static com.swifta.ussd.constant.PropertyKeys.CUSTOMER_DOB;
-import static com.swifta.ussd.constant.PropertyKeys.DOB_RETRY;
+import static com.swifta.ussd.constant.PropertyKeys.*;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Slf4j
@@ -37,16 +36,11 @@ public class TAndCStageHandler implements StageHandler {
                 String msisdn = session.getMsisdn();
                 SimRegInfo simRegInfo = simRegService.getSimRegInfo(msisdn);
 
-                if(simRegInfo == null){
-                    session.getCurrentStage();
-                    return;
-                }
 
-                CreateCustomerRequest customerRequest = new CreateCustomerRequest();
-                customerRequest.setFirstName(simRegInfo.getFirstName());
-                customerRequest.setDob(LocalDate.parse(simRegInfo.getDateOfBirth()));
-                customerRequest.setPhone(String.valueOf(simRegInfo.getCompleteNumber()));
-                customerRequest.setLastName(simRegInfo.getFamilyName());
+                session.setData(FIRST_NAME, simRegInfo.getFirstName());
+                session.setData(DOB, simRegInfo.getDateOfBirth());
+                session.setData(PHONE, String.valueOf(simRegInfo.getCompleteNumber()));
+                session.setData(LAST_NAME, simRegInfo.getFamilyName());
 
 
                 session.setCurrentStage(DOB);

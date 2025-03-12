@@ -5,10 +5,13 @@ import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.mock.MockGenerator;
 import com.swifta.ussd.service.screens.TAndCStageHandler;
+import com.swifta.ussd.service.simreg.SimRegService;
 import lombok.NoArgsConstructor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static com.swifta.ussd.constant.Stage.*;
@@ -18,9 +21,14 @@ import static org.junit.Assert.assertEquals;
 public class TAndCStageHandlerTest {
 
     private TAndCStageHandler tAndCStageHandler;
+
+    @Mock
+    private SimRegService mockSimRegService;
+
     @Before
     public void setUp() throws Exception {
-        tAndCStageHandler = new TAndCStageHandler();
+        MockitoAnnotations.initMocks(this);
+        tAndCStageHandler = new TAndCStageHandler(mockSimRegService);
     }
 
     @Test

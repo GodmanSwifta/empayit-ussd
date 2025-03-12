@@ -22,12 +22,14 @@ import static com.swifta.ussd.constant.Stage.*;
 
 @Slf4j
 @Component
+//@RequiredArgsConstructor
 public class KycConfirmationStageHandler implements StageHandler {
     private final EmpayItOnboardingService empayItOnboardingService;
 
     public KycConfirmationStageHandler(EmpayItOnboardingService empayItOnboardingService) {
         this.empayItOnboardingService = empayItOnboardingService;
     }
+
 
     @Override
     public void processStage(UssdSession session) {

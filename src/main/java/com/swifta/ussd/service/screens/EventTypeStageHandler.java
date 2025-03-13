@@ -15,8 +15,6 @@ public class EventTypeStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
-        setStageParameters(input);
-        session.setCurrentStage(EVENT_OPTION);
         switch (input) {
             case "1":
                 session.setData(EVENT_TYPE_VALUE, "Transport");
@@ -28,10 +26,11 @@ public class EventTypeStageHandler implements StageHandler {
             default:
                 session.setCurrentStage(INVALID_INPUT);
         }
+        session.setCurrentStage(EVENT_OPTION);
+
     }
 
-    private void setStageParameters(String input) {
-    }
+
 
 
     @Override

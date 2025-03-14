@@ -5,9 +5,12 @@ import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.mock.MockGenerator;
 import com.swifta.ussd.service.screens.KycConfirmationStageHandler;
+import com.swifta.ussd.serviceClient.EmpayItOnboardingService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -15,10 +18,16 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class KycConfirmationStageHandlerTest {
 
+
     private KycConfirmationStageHandler kycConfirmationStageHandler;
+
+    @Mock
+    private EmpayItOnboardingService mockEmpayItOnboardingService;
+
     @Before
     public void setUp() throws Exception {
-        kycConfirmationStageHandler = new KycConfirmationStageHandler();
+        MockitoAnnotations.initMocks(this);
+        kycConfirmationStageHandler = new KycConfirmationStageHandler(mockEmpayItOnboardingService);
     }
 
     @Test

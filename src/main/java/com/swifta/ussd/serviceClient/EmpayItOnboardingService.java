@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface EmpayItOnboardingService {
     CustomerData validateCustomer(String phoneNumber);
-    CustomerData CreateCustomer(CreateCustomerRequest customerRequest);
+    CustomerData createCustomer(CreateCustomerRequest customerRequest);
 
 
 }

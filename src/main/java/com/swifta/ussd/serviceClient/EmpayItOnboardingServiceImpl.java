@@ -6,8 +6,10 @@ import com.swifta.ussd.dto.request.CreateCustomerRequest;
 //import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
@@ -18,14 +20,13 @@ import org.springframework.web.client.RestOperations;
 @Service
 public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
-    private final RestOperations restOperations;
     private final String coreBaseUrl;
+    private final RestOperations restOperations;
 
-
-    public EmpayItOnboardingServiceImpl( RestOperations restOperations, @Value("${core.base.url}") String coreBaseUrl) {
-        this.restOperations = restOperations;
+    public EmpayItOnboardingServiceImpl(@Value("${core.empayit.url}") String coreBaseUrl,
+                                        RestOperations restOperations) {
         this.coreBaseUrl = coreBaseUrl;
-
+        this.restOperations = restOperations;
     }
 
 
@@ -53,7 +54,7 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
 
     @Override
-    public CustomerData CreateCustomer(CreateCustomerRequest customerRequest) {
+    public CustomerData createCustomer(CreateCustomerRequest customerRequest) {
         String url = coreBaseUrl.concat("/create-customer");
         HttpEntity<CreateCustomerRequest> httpEntity = new HttpEntity<>(customerRequest, getHeaders(""));
 

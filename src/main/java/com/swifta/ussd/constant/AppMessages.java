@@ -19,7 +19,7 @@ public class AppMessages {
     public static final String KYC_VALID_MESSAGE = "Dear {0}.\nYour data has been registered successfully. Thank you for your interest in EmpayIT.";
     public static final String MAIN_MENU_MESSAGE = "Welcome to EmpayIT\n1. Purchase Ticket\n2. Resend Ticket\n3. Refund Ticket\n4. Ticket Validation\n5. Contact Us";
     public static final String PURCHASE_OPTION_MESSAGE = "Select an option\n1. Self Purchase\n2. Agent Purchase";
-    public static final String EVENT_TYPE_MESSAGE = "Select Event type\n1. Transport\n2. Event";
+    public static final String EVENT_TYPE_MESSAGE = "Select Event type";
     public static final String EVENT_OPTION_MESSAGE = "Select Event\n1. Concert\n2. Sporting Events\n3. Theatre\n4. Movies";
     public static final String MOVIE_TICKET_OPTION_MESSAGE = "Select Movie Ticket\n1. Olubirin\n2. Django\n3. The secret lives of others";
     public static final String SPORT_EVENT_MESSAGE = "Select Event\n1. National Cup Qualifier\n2. ------";

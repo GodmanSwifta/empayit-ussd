@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
@@ -49,6 +51,12 @@ public class DobStageHandler implements StageHandler {
 
             df = new SimpleDateFormat("yyyy-MM-dd");
             userDob = df.format(date);
+
+            LocalDate today = LocalDate.now();
+            if (Period.between(LocalDate.parse(userDob), today).getYears() < 18) {
+                return false;
+            }
+
 
         } catch (ParseException e) {
             return false;

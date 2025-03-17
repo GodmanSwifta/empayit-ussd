@@ -4,17 +4,30 @@ import com.swifta.ussd.dto.EventTypeData;
 import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
+import com.swifta.ussd.model.EventTypeMenuModel;
+import com.swifta.ussd.model.MenuPageStore;
 import com.swifta.ussd.service.StageHandler;
+import com.swifta.ussd.serviceClient.UssdProductService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.swifta.ussd.constant.AppMessages.EVENT_TYPE_MESSAGE;
 import static com.swifta.ussd.constant.PropertyKeys.EVENT_TYPE_VALUE;
 import static com.swifta.ussd.constant.PropertyKeys.PAGE_NO;
 import static com.swifta.ussd.constant.Stage.*;
 import static java.util.Objects.isNull;
 
-
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class EventTypeStageHandler implements StageHandler {
+
+    private final UssdProductService productService;
+
     @Override
     public void processStage(UssdSession session) {
         int input = Integer.parseInt(session.getUssdInput());
@@ -56,8 +69,10 @@ public class EventTypeStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+
         String page = session.getData(PAGE_NO);
         if (isNull(page)) {
+            setupPageItems(session);//TODO: TEST
             session.setData(PAGE_NO, "1");
         }
         int pageNo = isNull(page) ? 1 : Integer.parseInt(page);
@@ -67,6 +82,17 @@ public class EventTypeStageHandler implements StageHandler {
                 .applicationResponse(menu)
                 .freeflow(Freeflow.FC)
                 .build();
+    }
+
+    private void setupPageItems(UssdSession session) {
+        List<EventTypeData> eventTypes = productService.getAllEventTypes();
+        MenuPageStore store = new MenuPageStore(
+                EVENT_TYPE_MESSAGE,
+                eventTypes.stream()
+                        .map(EventTypeMenuModel::new)
+                        .collect(Collectors.toList())
+        );
+        session.setMenuPageStore(store);
     }
 
     private void cleanUp(UssdSession session) {

@@ -17,13 +17,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class PurchaseOptionStageHandlerTest {
 
-    @Mock
-    private UssdProductService productService;
     private PurchaseOptionStageHandler purchaseOptionStageHandler;
 
     @Before
     public void setUp() throws Exception {
-        purchaseOptionStageHandler = new PurchaseOptionStageHandler(productService);
+        purchaseOptionStageHandler = new PurchaseOptionStageHandler();
     }
 
     @Test

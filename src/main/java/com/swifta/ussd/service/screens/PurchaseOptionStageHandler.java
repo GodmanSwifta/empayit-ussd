@@ -22,20 +22,9 @@ import static com.swifta.ussd.constant.Stage.*;
 @RequiredArgsConstructor
 public class PurchaseOptionStageHandler implements StageHandler {
 
-    private final UssdProductService productService;
-
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
-
-        List<EventTypeData> eventTypes = productService.getAllEventTypes();
-        MenuPageStore store = new MenuPageStore(
-                EVENT_TYPE_MESSAGE,
-                eventTypes.stream()
-                        .map(EventTypeMenuModel::new)
-                        .collect(Collectors.toList())
-        );
-        session.setMenuPageStore(store);
 
         switch (input) {
             case "1":

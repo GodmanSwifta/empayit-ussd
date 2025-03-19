@@ -15,4 +15,6 @@ public class PropertyKeys {
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String CUSTOMER_DOB = "customer_dob";
+
+    public static final String PAGE_NO = "page_no";
 }

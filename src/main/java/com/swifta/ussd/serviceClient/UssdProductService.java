@@ -1,8 +1,7 @@
 package com.swifta.ussd.serviceClient;
 
-import com.swifta.ussd.dto.EventData;
-import com.swifta.ussd.dto.EventTypeData;
-import com.swifta.ussd.dto.TicketBouquetData;
+import com.swifta.ussd.dto.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,4 +13,15 @@ public interface UssdProductService {
 
     List<EventData> getEventsByType(String eventType);
     List<TicketBouquetData> getTicketBouquetsByEventId(String eventId);
+
+
+    CreateTransactionResponse createTransaction(CreateTransactionRequest request);
+
+    InitiatePaymentResponse initiatePayment(InitiatePaymentRequest request);
+
+    Page<UssdTransaction> listTransactions(String merchantId, UssdTransactionFilter request, int page, int pageSize);
+
+    UssdTransaction getTransaction(String merchantId, String transactionId);
+
+    UssdTransaction getTransactionByReference(String reference);
 }

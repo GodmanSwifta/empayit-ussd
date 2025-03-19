@@ -19,7 +19,7 @@ public interface UssdProductService {
 
     InitiatePaymentResponse initiatePayment(InitiatePaymentRequest request);
 
-    Page<UssdTransaction> listTransactions(String merchantId, UssdTransactionFilter request, int page, int pageSize);
+    Page<UssdTransaction> listTransactions(String merchantId, UssdTransactionFilter filterRequest, int page, int pageSize);
 
     UssdTransaction getTransaction(String merchantId, String transactionId);
 

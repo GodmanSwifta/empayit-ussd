@@ -162,12 +162,16 @@ public class UssdProductServiceImpl implements UssdProductService {
     }
 
     @Override
-    public Page<UssdTransaction> listTransactions(String merchantId, UssdTransactionFilter filterRequest, int page, int pageSize) {
+    public Page<UssdTransaction> listTransactions(String merchantId,
+                                                  UssdTransactionFilter filterRequest,
+                                                  int page,
+                                                  int pageSize) {
                 String url = coreBaseUrl
                         .concat("/transaction?merchantId")
-                        .concat(filterRequest +"&page=" +page +"&page size=")
+                        .concat(page +"&page=" +pageSize +"&page size=")
                         .concat(merchantId);
-                HttpEntity request = new HttpEntity<>(null,getHeaders(merchantId));
+                HttpEntity<UssdTransactionFilter>request =
+                        new HttpEntity<>(filterRequest, getHeaders(merchantId));
                 ResponseEntity<Page<UssdTransaction>> responseEntity;
                 if (transactions.isEmpty()){
                     try {
@@ -183,7 +187,6 @@ public class UssdProductServiceImpl implements UssdProductService {
                 }
                   return transactions;
     }
-
 
     @Override
     public UssdTransaction getTransaction(String merchantId, String transactionId) {
@@ -218,7 +221,6 @@ public class UssdProductServiceImpl implements UssdProductService {
         }
         return responseEntity.getBody();
     }
-
 
     private HttpHeaders getHeaders(String s) {
         HttpHeaders httpHeaders = new HttpHeaders();

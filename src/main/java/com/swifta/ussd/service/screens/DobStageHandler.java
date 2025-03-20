@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
 
-import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.DOB_MESSAGE;
 import static com.swifta.ussd.constant.PropertyKeys.DOB_RETRY;
 import static com.swifta.ussd.constant.Stage.*;
@@ -28,7 +27,7 @@ public class DobStageHandler implements StageHandler {
     }
 
     private String getStageOption(String input, UssdSession session) {
-        if(isDobValid(input)) {
+        if(isDobValid(input,session)) {
             session.setData(DOB_RETRY, "false");
             return KYC_CONFIRMATION;
         } else {
@@ -37,7 +36,7 @@ public class DobStageHandler implements StageHandler {
         }
     }
 
-    private boolean isDobValid(String input) {
+    private boolean isDobValid(String input, UssdSession session) {
         String userDob;
         try {
             input = input.replaceAll("/|-|\\s", "");
@@ -56,6 +55,14 @@ public class DobStageHandler implements StageHandler {
             if (Period.between(LocalDate.parse(userDob), today).getYears() < 18) {
                 return false;
             }
+
+            String storedDob = session.getData("customer_dob");
+
+            if (storedDob != null && !storedDob.isEmpty() && !storedDob.equals(input)) {
+                return false;
+            }
+
+            session.setData("CUSTOMER_DOB", input);
 
 
         } catch (ParseException e) {

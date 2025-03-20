@@ -1,26 +1,31 @@
 package com.swifta.ussd.service.screens;
 
+import com.swifta.ussd.dto.EventTypeData;
 import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
+import com.swifta.ussd.model.EventTypeMenuModel;
+import com.swifta.ussd.model.MenuPageStore;
 import com.swifta.ussd.service.StageHandler;
+import com.swifta.ussd.serviceClient.UssdProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.PURCHASE_OPTION_MESSAGE;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.swifta.ussd.constant.AppMessages.*;
 import static com.swifta.ussd.constant.PropertyKeys.PURCHASE_OPTION_TYPE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
+@RequiredArgsConstructor
 public class PurchaseOptionStageHandler implements StageHandler {
+
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
-        setStageParameters(input, session);
-        session.setCurrentStage(EVENT_TYPE);
-    }
 
-    private void setStageParameters(String input, UssdSession session) {
         switch (input) {
             case "1":
                 session.setData(PURCHASE_OPTION_TYPE, "self");
@@ -29,6 +34,7 @@ public class PurchaseOptionStageHandler implements StageHandler {
                 session.setData(PURCHASE_OPTION_TYPE, "agent");
                 break;
         }
+        session.setCurrentStage(EVENT_TYPE);
     }
 
     @Override

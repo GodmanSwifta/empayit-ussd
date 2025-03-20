@@ -52,16 +52,21 @@ public class DobStageHandler implements StageHandler {
             userDob = df.format(date);
 
             LocalDate today = LocalDate.now();
+
             if (Period.between(LocalDate.parse(userDob), today).getYears() < 18) {
                 return false;
             }
 
-            String storedDob = session.getData("customer_dob");
+            String storedDob = session.getData("CUSTOMER_DOB");
 
-            if (storedDob != null && !storedDob.isEmpty() && !storedDob.equals(input)) {
-                return false;
+            if (storedDob != null && !storedDob.isEmpty()) {
+                LocalDate storedDobDate = LocalDate.parse(storedDob);
+                LocalDate inputDobDate = LocalDate.parse(userDob);
+
+                if (!storedDobDate.equals(inputDobDate)) {
+                    return false;
+                }
             }
-
             session.setData("CUSTOMER_DOB", input);
 
 

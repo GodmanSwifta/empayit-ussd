@@ -1,10 +1,11 @@
 package com.swifta.ussd.serviceClient;
 
-import com.swifta.ussd.dto.EventData;
-import com.swifta.ussd.dto.EventTypeData;
-import com.swifta.ussd.dto.TicketBouquetData;
+import com.sun.jdi.request.ExceptionRequest;
+import com.swifta.ussd.dto.*;
+import com.swifta.ussd.dto.request.CreateCustomerRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,6 +22,7 @@ public class UssdProductServiceImpl implements UssdProductService {
     private List<TicketBouquetData> ticketBouquet = new ArrayList<>();
     private List<EventData> event = new ArrayList<>();
     private List<EventTypeData> eventType = new ArrayList<>();
+    private Page<UssdTransaction> transactions;
     private final String coreBaseUrl;
     private final RestOperations restOperations;
 
@@ -128,6 +130,96 @@ public class UssdProductServiceImpl implements UssdProductService {
             }
         }
         return ticketBouquet;
+    }
+
+    @Override
+    public CreateTransactionResponse createTransaction(CreateTransactionRequest transactionRequest) {
+        String url = coreBaseUrl.concat("/create");
+        HttpEntity<CreateTransactionRequest> httpEntity = new HttpEntity<>(transactionRequest, getHeaders(""));
+        ResponseEntity<CreateTransactionResponse> responseEntity;
+        try {
+            responseEntity = restOperations.exchange(
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+        }catch (HttpClientErrorException ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public InitiatePaymentResponse initiatePayment(InitiatePaymentRequest paymentRequest) {
+        String url = coreBaseUrl.concat("/pay");
+        HttpEntity<InitiatePaymentRequest> httpEntity = new HttpEntity<>(paymentRequest, getHeaders(""));
+        ResponseEntity<InitiatePaymentResponse> responseEntity;
+        try {
+            responseEntity = restOperations.exchange(
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+        }catch (HttpClientErrorException ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public Page<UssdTransaction> listTransactions(String merchantId,
+                                                  UssdTransactionFilter filterRequest,
+                                                  int page,
+                                                  int pageSize) {
+                String url = coreBaseUrl
+                        .concat("/transaction?merchantId")
+                        .concat(page +"&page=" +pageSize +"&page size=")
+                        .concat(merchantId);
+                HttpEntity<UssdTransactionFilter>request =
+                        new HttpEntity<>(filterRequest, getHeaders(merchantId));
+                ResponseEntity<Page<UssdTransaction>> responseEntity;
+                if (transactions.isEmpty()){
+                    try {
+                        responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                                new ParameterizedTypeReference<Page<UssdTransaction>>() {});
+                        transactions = responseEntity.getBody();
+                    }catch (HttpClientErrorException ex) {
+                        if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                            return null;
+                        }
+                        throw new RuntimeException(ex.getMessage());
+                    }
+                }
+                  return transactions;
+    }
+
+    @Override
+    public UssdTransaction getTransaction(String merchantId, String transactionId) {
+                String url = coreBaseUrl.concat("transaction?merchantId=" + merchantId);
+                HttpEntity  request = new HttpEntity<>(null, getHeaders(transactionId));
+                ResponseEntity<UssdTransaction> responseEntity;
+                try {
+                    responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                            new ParameterizedTypeReference<UssdTransaction>() {});
+                    return responseEntity.getBody();
+                }catch (HttpClientErrorException ex){
+                    if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                        return null;
+                    }
+                    throw new RuntimeException(ex.getMessage());
+                }
+    }
+
+    @Override
+    public UssdTransaction getTransactionByReference(String reference) {
+        String url = coreBaseUrl.concat("/by-reference/" + reference + "reference");
+        HttpEntity<String> request = new HttpEntity<>(null,getHeaders(reference));
+        ResponseEntity<UssdTransaction> responseEntity;
+        try {
+            responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                    new ParameterizedTypeReference<UssdTransaction>() {});
+        }catch (HttpClientErrorException ex){
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                return null;
+            }
+            throw new RuntimeException(ex.getMessage());
+        }
+        return responseEntity.getBody();
     }
 
     private HttpHeaders getHeaders(String s) {

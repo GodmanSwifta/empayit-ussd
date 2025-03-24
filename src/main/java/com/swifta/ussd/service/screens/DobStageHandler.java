@@ -15,6 +15,7 @@ import java.time.Period;
 import java.util.Date;
 
 import static com.swifta.ussd.constant.AppMessages.DOB_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.CUSTOMER_DOB;
 import static com.swifta.ussd.constant.PropertyKeys.DOB_RETRY;
 import static com.swifta.ussd.constant.Stage.*;
 
@@ -57,7 +58,7 @@ public class DobStageHandler implements StageHandler {
                 return false;
             }
 
-            String storedDob = session.getData("CUSTOMER_DOB");
+            String storedDob = session.getData(CUSTOMER_DOB);
 
             if (storedDob != null && !storedDob.isEmpty()) {
                 LocalDate storedDobDate = LocalDate.parse(storedDob);
@@ -67,7 +68,7 @@ public class DobStageHandler implements StageHandler {
                     return false;
                 }
             }
-            session.setData("CUSTOMER_DOB", input);
+            session.setData(CUSTOMER_DOB, input);
 
 
         } catch (ParseException e) {

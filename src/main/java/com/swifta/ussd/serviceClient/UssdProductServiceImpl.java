@@ -26,7 +26,7 @@ public class UssdProductServiceImpl implements UssdProductService {
     private final String coreBaseUrl;
     private final RestOperations restOperations;
 
-    public UssdProductServiceImpl(@Value("${core.base.url}") String coreBaseUrl, RestOperations restOperations) {
+    public UssdProductServiceImpl(@Value("${core.empayit.url}") String coreBaseUrl, RestOperations restOperations) {
         this.coreBaseUrl = coreBaseUrl;
         this.restOperations = restOperations;
 

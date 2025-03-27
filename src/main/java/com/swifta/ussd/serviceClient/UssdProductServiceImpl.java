@@ -1,8 +1,6 @@
 package com.swifta.ussd.serviceClient;
 
-import com.sun.jdi.request.ExceptionRequest;
 import com.swifta.ussd.dto.*;
-import com.swifta.ussd.dto.request.CreateCustomerRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
@@ -91,7 +89,7 @@ public class UssdProductServiceImpl implements UssdProductService {
     }
 
     @Override
-    public List<EventData> getEventsByType(String eventType) {
+    public List<EventOptionData> getEventsByType(String eventType) {
         String url = coreBaseUrl.concat("/events/" + eventType + "?type");
         HttpEntity request = new HttpEntity<>(null, getHeaders(eventType));
         ResponseEntity<List<EventData>> responseEntity;

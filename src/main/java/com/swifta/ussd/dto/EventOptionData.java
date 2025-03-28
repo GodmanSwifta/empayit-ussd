@@ -16,13 +16,15 @@ public class EventOptionData {
     private String eventId;
     @JsonProperty("event_name")
     private String eventName;
-
+    @JsonProperty("merchant_name")
+    private String merchantName;
 
 
 
     public EventOptionData(EventData eventData) {
         this.eventName = eventData.getEventName();
         this.eventId = eventData.getEventId();
+        this.merchantName= eventData.getMerchantName();
 
 
 

@@ -58,6 +58,7 @@ public class EventOptionStageHandler implements StageHandler {
                 EventOptionData selected = session.getMenuPageStore().getMenuPageModel(input).getObject();
                 session.setData(EVENT_OPTION_VALUE, selected.getEventName());
                 session.setData(EVENT_OPTION_VALUE, selected.getEventId());
+                session.setData(MERCHANT_NAME, selected.getMerchantName());
                 session.setCurrentStage(EVENT_OPTION);
                 cleanUp(session);
 

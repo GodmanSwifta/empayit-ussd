@@ -56,7 +56,8 @@ public class EventOptionStageHandler implements StageHandler {
 
             default:
                 EventOptionData selected = session.getMenuPageStore().getMenuPageModel(input).getObject();
-                session.setData(EVENT_OPTION_VALUE, selected.getOptionName());
+                session.setData(EVENT_OPTION_VALUE, selected.getEventName());
+                session.setData(EVENT_OPTION_VALUE, selected.getEventId());
                 session.setCurrentStage(EVENT_OPTION);
                 cleanUp(session);
 
@@ -111,7 +112,9 @@ public class EventOptionStageHandler implements StageHandler {
 
     private void setupPageItems(UssdSession session) {
         String eventType = session.getData(EVENT_TYPE_VALUE);
-        List<EventOptionData> eventOptions = productService.getEventsByType(eventType);
+        List<EventOptionData> eventOptions = productService.getEventsByType(eventType).stream()
+                .map(eventData -> new EventOptionData(eventData))
+                .collect(Collectors.toList());
 
         MenuPageStore store = new MenuPageStore(
                 EVENT_OPTION_MESSAGE,

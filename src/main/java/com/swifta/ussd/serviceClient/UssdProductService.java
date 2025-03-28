@@ -11,7 +11,7 @@ public interface UssdProductService {
 
     List<EventTypeData> getAllEventTypes();
 
-    List<EventOptionData> getEventsByType(String eventType);
+    List<EventData> getEventsByType(String eventType);
     List<TicketBouquetData> getTicketBouquetsByEventId(String eventId);
 
 

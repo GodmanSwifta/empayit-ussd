@@ -11,5 +11,4 @@ public interface EmpayItOnboardingService {
     CustomerData validateCustomer(String phoneNumber);
     CustomerData createCustomer(CreateCustomerRequest customerRequest);
 
-
 }

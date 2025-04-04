@@ -5,9 +5,12 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.mock.MockGenerator;
 import com.swifta.ussd.service.screens.EventOptionStageHandler;
 import com.swifta.ussd.service.screens.MainMenuStageHandler;
+import com.swifta.ussd.serviceClient.UssdProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static com.swifta.ussd.constant.Stage.*;
@@ -17,9 +20,13 @@ import static org.junit.Assert.assertEquals;
 public class MainMenuStageHandlerTest {
 
     private MainMenuStageHandler mainMenuStageHandler;
+
+    @Mock
+    private UssdProductService ussdProductService;
     @Before
     public void setUp() throws Exception {
-        mainMenuStageHandler = new MainMenuStageHandler();
+        MockitoAnnotations.initMocks(this);
+        mainMenuStageHandler = new MainMenuStageHandler(ussdProductService);
     }
 
     @Test

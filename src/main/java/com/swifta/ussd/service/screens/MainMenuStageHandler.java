@@ -4,15 +4,22 @@ import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
+import com.swifta.ussd.serviceClient.UssdProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.EVENT_TYPE_VALUE;
 import static com.swifta.ussd.constant.PropertyKeys.FLOW;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
+@RequiredArgsConstructor
+
 public class MainMenuStageHandler implements StageHandler {
+    private final UssdProductService productService;
+
     @Override
     public void processStage(UssdSession session) {
         String input = session.getUssdInput();
@@ -32,6 +39,7 @@ public class MainMenuStageHandler implements StageHandler {
                 break;
             case "3":
                 session.setData(FLOW, "refund_ticket");
+                productService.processRefund(session.getMsisdn(),"");
                 nextStage = SUPPORT;
                 break;
             case "4":

@@ -89,7 +89,7 @@ public class UssdProductServiceImpl implements UssdProductService {
     }
 
     @Override
-    public List<EventOptionData> getEventsByType(String eventType) {
+    public List<EventData> getEventsByType(String eventType) {
         String url = coreBaseUrl.concat("/events/" + eventType + "?type");
         HttpEntity request = new HttpEntity<>(null, getHeaders(eventType));
         ResponseEntity<List<EventData>> responseEntity;

@@ -45,7 +45,7 @@ public class AcknowledgmentStageHandlerTest {
     @Test
     public void getStage() {
         String stage = acknowledgmentStageHandler.getStage();
-        assertEquals(Stage.RSA_OPTIONS, stage);
+        assertEquals(Stage.ACKNOWLEDGMENT_OPTIONS, stage);
     }
 
     @Test

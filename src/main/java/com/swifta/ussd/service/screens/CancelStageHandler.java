@@ -6,7 +6,7 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.CANCEL_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
@@ -25,7 +25,7 @@ public class CancelStageHandler implements StageHandler {
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(CANCLE_MESSAGE)
+                .applicationResponse(CANCEL_MESSAGE)
                 .freeflow(Freeflow.FB)
                 .build();
     }

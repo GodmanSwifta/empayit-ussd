@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,4 +17,5 @@ public class TicketBouquetData {
     private String name;
     @JsonProperty("event")
     private String event;
+    private BigDecimal amount;
 }

@@ -33,58 +33,61 @@ public class UssdProductServiceImpl implements UssdProductService {
     @Override
     public boolean validateTicket(String phoneNumber, String numberOfTicket) {
         String url = coreBaseUrl.concat("/validate-ticket");
-        HttpEntity request = new HttpEntity<>(null,getHeaders(numberOfTicket));
+        HttpEntity request = new HttpEntity<>(null, getHeaders(numberOfTicket));
         ResponseEntity<Boolean> responseEntity;
         try {
             responseEntity = restOperations.exchange(url, HttpMethod.POST, request,
-                    new ParameterizedTypeReference<Boolean>() {});
-        }catch (HttpClientErrorException ex){
-            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                    new ParameterizedTypeReference<Boolean>() {
+                    });
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return false;
             }
             throw new RuntimeException(ex.getMessage());
         }
         return Objects.requireNonNull(responseEntity.getBody());
-        }
+    }
 
 
     @Override
     public void processRefund(String phoneNumber, String numberOfTicket) {
         String url = coreBaseUrl.concat("/refund-ticket");
-        HttpEntity request = new HttpEntity<>(null,getHeaders(numberOfTicket));
+        HttpEntity request = new HttpEntity<>(null, getHeaders(numberOfTicket));
         ResponseEntity<Void> responseEntity;
         try {
             responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                    new ParameterizedTypeReference<Void>() {});
+                    new ParameterizedTypeReference<Void>() {
+                    });
 
-        }catch (HttpClientErrorException ex){
-            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return;
             }
-            throw new RuntimeException( ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
         }
 
-        return ;
+        return;
     }
 
 
     @Override
     public List<EventTypeData> getAllEventTypes() {
         String url = coreBaseUrl.concat("/event-types");
-        HttpEntity request = new HttpEntity( null, getHeaders(""));
-       ResponseEntity<List<EventTypeData>> responseEntity;
-       if (eventType.isEmpty()){
-           try {
-               responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                       new ParameterizedTypeReference<List<EventTypeData>>() {});
-                  eventType = responseEntity.getBody();
-           }catch (HttpClientErrorException ex){
-               if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-                   return null;
-               }
-               throw new RuntimeException(ex.getMessage());
-           }
-       }
+        HttpEntity request = new HttpEntity(null, getHeaders(""));
+        ResponseEntity<List<EventTypeData>> responseEntity;
+        if (eventType.isEmpty()) {
+            try {
+                responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                        new ParameterizedTypeReference<List<EventTypeData>>() {
+                        });
+                eventType = responseEntity.getBody();
+            } catch (HttpClientErrorException ex) {
+                if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                    return null;
+                }
+                throw new RuntimeException(ex.getMessage());
+            }
+        }
         return eventType;
     }
 
@@ -97,7 +100,7 @@ public class UssdProductServiceImpl implements UssdProductService {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<List<EventData>>() {
-                });
+                        });
                 event = responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
@@ -112,13 +115,13 @@ public class UssdProductServiceImpl implements UssdProductService {
     @Override
     public List<TicketBouquetData> getTicketBouquetsByEventId(String eventId) {
         String url = coreBaseUrl.concat("/tickets/" + eventId + "?id");
-        HttpEntity request = new  HttpEntity<>(null, getHeaders(eventId));
+        HttpEntity request = new HttpEntity<>(null, getHeaders(eventId));
         ResponseEntity<List<TicketBouquetData>> responseEntity;
         if (ticketBouquet.isEmpty()) {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<List<TicketBouquetData>>() {
-                });
+                        });
                 ticketBouquet = responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
@@ -132,13 +135,14 @@ public class UssdProductServiceImpl implements UssdProductService {
 
     @Override
     public CreateTransactionResponse createTransaction(CreateTransactionRequest transactionRequest) {
-        String url = coreBaseUrl.concat("/create");
+        String url = coreBaseUrl.replace("/empayit", "").concat("/transactions/create");
         HttpEntity<CreateTransactionRequest> httpEntity = new HttpEntity<>(transactionRequest, getHeaders(""));
         ResponseEntity<CreateTransactionResponse> responseEntity;
         try {
             responseEntity = restOperations.exchange(
-                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
-        }catch (HttpClientErrorException ex){
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
+                    });
+        } catch (HttpClientErrorException ex) {
             throw new RuntimeException(ex.getMessage());
         }
 
@@ -147,13 +151,14 @@ public class UssdProductServiceImpl implements UssdProductService {
 
     @Override
     public InitiatePaymentResponse initiatePayment(InitiatePaymentRequest paymentRequest) {
-        String url = coreBaseUrl.concat("/pay");
+        String url = coreBaseUrl.replace("/empayit", "").concat("/transactions/pay");
         HttpEntity<InitiatePaymentRequest> httpEntity = new HttpEntity<>(paymentRequest, getHeaders(""));
         ResponseEntity<InitiatePaymentResponse> responseEntity;
         try {
             responseEntity = restOperations.exchange(
-                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
-        }catch (HttpClientErrorException ex){
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
+                    });
+        } catch (HttpClientErrorException ex) {
             throw new RuntimeException(ex.getMessage());
         }
         return responseEntity.getBody();
@@ -164,55 +169,58 @@ public class UssdProductServiceImpl implements UssdProductService {
                                                   UssdTransactionFilter filterRequest,
                                                   int page,
                                                   int pageSize) {
-                String url = coreBaseUrl
-                        .concat("/transaction?merchantId")
-                        .concat(page +"&page=" +pageSize +"&page size=")
-                        .concat(merchantId);
-                HttpEntity<UssdTransactionFilter>request =
-                        new HttpEntity<>(filterRequest, getHeaders(merchantId));
-                ResponseEntity<Page<UssdTransaction>> responseEntity;
-                if (transactions.isEmpty()){
-                    try {
-                        responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                                new ParameterizedTypeReference<Page<UssdTransaction>>() {});
-                        transactions = responseEntity.getBody();
-                    }catch (HttpClientErrorException ex) {
-                        if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-                            return null;
-                        }
-                        throw new RuntimeException(ex.getMessage());
-                    }
+        String url = coreBaseUrl
+                .concat("/transaction?merchantId")
+                .concat(page + "&page=" + pageSize + "&page size=")
+                .concat(merchantId);
+        HttpEntity<UssdTransactionFilter> request =
+                new HttpEntity<>(filterRequest, getHeaders(merchantId));
+        ResponseEntity<Page<UssdTransaction>> responseEntity;
+        if (transactions.isEmpty()) {
+            try {
+                responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                        new ParameterizedTypeReference<Page<UssdTransaction>>() {
+                        });
+                transactions = responseEntity.getBody();
+            } catch (HttpClientErrorException ex) {
+                if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                    return null;
                 }
-                  return transactions;
+                throw new RuntimeException(ex.getMessage());
+            }
+        }
+        return transactions;
     }
 
     @Override
     public UssdTransaction getTransaction(String merchantId, String transactionId) {
-                String url = coreBaseUrl.concat("transaction?merchantId=" + merchantId);
-                HttpEntity  request = new HttpEntity<>(null, getHeaders(transactionId));
-                ResponseEntity<UssdTransaction> responseEntity;
-                try {
-                    responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                            new ParameterizedTypeReference<UssdTransaction>() {});
-                    return responseEntity.getBody();
-                }catch (HttpClientErrorException ex){
-                    if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
-                        return null;
-                    }
-                    throw new RuntimeException(ex.getMessage());
-                }
+        String url = coreBaseUrl.concat("transaction?merchantId=" + merchantId);
+        HttpEntity request = new HttpEntity<>(null, getHeaders(transactionId));
+        ResponseEntity<UssdTransaction> responseEntity;
+        try {
+            responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                    new ParameterizedTypeReference<UssdTransaction>() {
+                    });
+            return responseEntity.getBody();
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return null;
+            }
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 
     @Override
     public UssdTransaction getTransactionByReference(String reference) {
         String url = coreBaseUrl.concat("/by-reference/" + reference + "reference");
-        HttpEntity<String> request = new HttpEntity<>(null,getHeaders(reference));
+        HttpEntity<String> request = new HttpEntity<>(null, getHeaders(reference));
         ResponseEntity<UssdTransaction> responseEntity;
         try {
             responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                    new ParameterizedTypeReference<UssdTransaction>() {});
-        }catch (HttpClientErrorException ex){
-            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                    new ParameterizedTypeReference<UssdTransaction>() {
+                    });
+        } catch (HttpClientErrorException ex) {
+            if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return null;
             }
             throw new RuntimeException(ex.getMessage());

@@ -21,6 +21,6 @@ public class EventOptionMenuModel implements MenuPageModel{
 
     @Override
     public String getStringValue() {
-        return eventOption.getOptionName();
+        return eventOption.getEventName();
     }
 }

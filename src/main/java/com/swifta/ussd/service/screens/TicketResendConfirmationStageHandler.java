@@ -6,9 +6,9 @@ import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.TICKET_LIST_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.TICKET_RESEND_CONFIRMATION_MESSAGE;
-import static com.swifta.ussd.constant.Stage.*;
+import static com.swifta.ussd.constant.Stage.TICKET_RESEND_CONFIRMATION;
+import static com.swifta.ussd.constant.Stage.TICKET_SENT;
 
 @Component
 public class TicketResendConfirmationStageHandler implements StageHandler {
@@ -26,7 +26,7 @@ public class TicketResendConfirmationStageHandler implements StageHandler {
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(TICKET_RESEND_CONFIRMATION_MESSAGE)
+                .applicationResponse(String.format(TICKET_RESEND_CONFIRMATION_MESSAGE, session.getMsisdn()))
                 .freeflow(Freeflow.FC)
                 .build();
     }

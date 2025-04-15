@@ -3,8 +3,10 @@ package com.swifta.ussd.service;
 import com.swifta.ussd.constant.Stage;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
+import com.swifta.ussd.enums.BuyerType;
 import com.swifta.ussd.mock.MockGenerator;
 import com.swifta.ussd.service.screens.PaymentChannelStageHandler;
+import com.swifta.ussd.serviceClient.UssdProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,10 +19,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class PaymentChannelStageHandlerTest {
 
+    private UssdProductService ussdProductService;
     private PaymentChannelStageHandler paymentChannelStageHandler;
     @Before
     public void setUp() throws Exception {
-        paymentChannelStageHandler = new PaymentChannelStageHandler();
+        paymentChannelStageHandler = new PaymentChannelStageHandler(ussdProductService);
     }
 
     @Test
@@ -32,7 +35,7 @@ public class PaymentChannelStageHandlerTest {
     @Test
     public void loadPageMomoPin() {
         UssdSession session = MockGenerator.generateSession("id");
-        session.setData(PURCHASE_OPTION_TYPE, "agent");
+        session.setData(PURCHASE_OPTION_TYPE, BuyerType.AGENT.name());
         session.setData(PAYMENT_METHOD, "mtn_momo");
         String expected = "Enter MoMo Pin";
 
@@ -43,7 +46,7 @@ public class PaymentChannelStageHandlerTest {
     @Test
     public void loadPagePromocode() {
         UssdSession session = MockGenerator.generateSession("id");
-        session.setData(PURCHASE_OPTION_TYPE, "self");
+        session.setData(PURCHASE_OPTION_TYPE, BuyerType.CUSTOMER.name());
         session.setData(PAYMENT_METHOD, "promocode");
         String expected = "Enter Event promocode";
 

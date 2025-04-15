@@ -32,7 +32,7 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
     @Override
     public CustomerData validateCustomer(String phoneNumber) {
-        String url = coreBaseUrl.concat("/customer-validate");
+        String url = coreBaseUrl.concat("/customer-validity?phoneNumber=").concat(phoneNumber);
         HttpEntity<String> request = new HttpEntity<>(null,getHeaders(""));
 
         ResponseEntity<CustomerData> responseEntity;

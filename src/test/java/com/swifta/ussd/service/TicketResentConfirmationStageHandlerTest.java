@@ -1,10 +1,8 @@
 package com.swifta.ussd.service;
 
-import com.swifta.ussd.constant.Stage;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.mock.MockGenerator;
-import com.swifta.ussd.service.screens.TicketModeStageHandler;
 import com.swifta.ussd.service.screens.TicketResendConfirmationStageHandler;
 import org.junit.Before;
 import org.junit.Test;

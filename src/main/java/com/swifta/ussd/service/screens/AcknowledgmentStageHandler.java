@@ -30,7 +30,7 @@ public class AcknowledgmentStageHandler implements StageHandler {
 
     @Override
     public String getStage() {
-        return RSA_OPTIONS;
+        return ACKNOWLEDGMENT_OPTIONS;
     }
 
     @Override

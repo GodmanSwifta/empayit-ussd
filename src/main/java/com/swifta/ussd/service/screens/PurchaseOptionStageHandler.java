@@ -4,6 +4,7 @@ import com.swifta.ussd.dto.EventTypeData;
 import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
+import com.swifta.ussd.enums.BuyerType;
 import com.swifta.ussd.model.EventTypeMenuModel;
 import com.swifta.ussd.model.MenuPageStore;
 import com.swifta.ussd.service.StageHandler;
@@ -28,10 +29,10 @@ public class PurchaseOptionStageHandler implements StageHandler {
 
         switch (input) {
             case "1":
-                session.setData(PURCHASE_OPTION_TYPE, "self");
+                session.setData(PURCHASE_OPTION_TYPE, BuyerType.CUSTOMER.name());
                 break;
             case "2":
-                session.setData(PURCHASE_OPTION_TYPE, "agent");
+                session.setData(PURCHASE_OPTION_TYPE,  BuyerType.AGENT.name());
                 break;
         }
         session.setCurrentStage(EVENT_TYPE);

@@ -5,6 +5,7 @@ import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
@@ -12,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static com.swifta.ussd.constant.AppMessages.DOB_MESSAGE;
@@ -19,6 +21,7 @@ import static com.swifta.ussd.constant.PropertyKeys.CUSTOMER_DOB;
 import static com.swifta.ussd.constant.PropertyKeys.DOB_RETRY;
 import static com.swifta.ussd.constant.Stage.*;
 
+@Slf4j
 @Component
 public class DobStageHandler implements StageHandler {
     @Override
@@ -46,7 +49,7 @@ public class DobStageHandler implements StageHandler {
                 return false;
             }
 
-            DateFormat df = new SimpleDateFormat("yyyyMMdd");
+            DateFormat df = new SimpleDateFormat("ddMMyyyy");
             Date date = df.parse(input);
 
             df = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,7 +64,8 @@ public class DobStageHandler implements StageHandler {
             String storedDob = session.getData(CUSTOMER_DOB);
 
             if (storedDob != null && !storedDob.isEmpty()) {
-                LocalDate storedDobDate = LocalDate.parse(storedDob);
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
+                LocalDate storedDobDate = LocalDate.parse(storedDob, dtf);
                 LocalDate inputDobDate = LocalDate.parse(userDob);
 
                 if (!storedDobDate.equals(inputDobDate)) {
@@ -72,6 +76,7 @@ public class DobStageHandler implements StageHandler {
 
 
         } catch (ParseException e) {
+            log.error("Error Parsing DOB", e);
             return false;
         }
         return true;

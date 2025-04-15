@@ -7,6 +7,7 @@ import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.PAYMENT_CONFIRMATION_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.*;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
@@ -25,7 +26,7 @@ public class PaymentConfirmationStageHandler implements StageHandler {
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(PAYMENT_CONFIRMATION_MESSAGE)
+                .applicationResponse(String.format(PAYMENT_CONFIRMATION_MESSAGE, session.getData(AMOUNT), session.getData(TRANSACTION_ID)))
                 .freeflow(Freeflow.FC)
                 .build();
     }

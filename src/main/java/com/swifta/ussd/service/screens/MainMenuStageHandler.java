@@ -8,9 +8,7 @@ import com.swifta.ussd.serviceClient.UssdProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.CANCLE_MESSAGE;
 import static com.swifta.ussd.constant.AppMessages.MAIN_MENU_MESSAGE;
-import static com.swifta.ussd.constant.PropertyKeys.EVENT_TYPE_VALUE;
 import static com.swifta.ussd.constant.PropertyKeys.FLOW;
 import static com.swifta.ussd.constant.Stage.*;
 

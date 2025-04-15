@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static com.swifta.ussd.constant.AppMessages.INCORRECT_SHORTCODE_PAGE;
 import static com.swifta.ussd.constant.PropertyKeys.*;
-import static com.swifta.ussd.constant.Stage.RSA_OPTIONS;
+import static com.swifta.ussd.constant.Stage.ACKNOWLEDGMENT_OPTIONS;
 import static java.util.Objects.isNull;
 
 @Slf4j
@@ -59,7 +59,7 @@ public class UssdServiceImpl implements UssdService {
             }
             log.info("new ussd request");
             if (isNewCustomer(session.getMsisdn(), session)) {
-                session.setCurrentStage(RSA_OPTIONS);
+                session.setCurrentStage(ACKNOWLEDGMENT_OPTIONS);
                 ussdSessionRepository.save(session);
                 return acknowledgmentStageHandler.loadPage(session);
             }
@@ -95,7 +95,7 @@ public class UssdServiceImpl implements UssdService {
 
         if (!isNull(customerData)) {
             session.setData(USER_EXIST, "1");
-            session.setData(CUSTOMER_ID, String.valueOf(customerData.getUserId()));
+            session.setData(CUSTOMER_ID, customerData.getUserId());
             session.setData(FIRST_NAME, customerData.getFirstName());
             session.setData(LAST_NAME, customerData.getLastName());
             if (!isNull(customerData.getDob())) {

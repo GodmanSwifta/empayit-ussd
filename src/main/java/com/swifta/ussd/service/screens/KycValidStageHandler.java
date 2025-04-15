@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 
 import static com.swifta.ussd.constant.AppMessages.KYC_VALID_MESSAGE;
+import static com.swifta.ussd.constant.PropertyKeys.FIRST_NAME;
+import static com.swifta.ussd.constant.PropertyKeys.LAST_NAME;
 import static com.swifta.ussd.constant.Stage.KYC_VALID;
 
 @Component
@@ -25,10 +27,13 @@ public class KycValidStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
-        //TODO: GET CORRECT NAME FROM SESSION TO REPLACE PLACEHOLDER VALUE
+
+        String firstName = session.getData(FIRST_NAME);
+        String lastName = session.getData(LAST_NAME);
+        String fullName = firstName + " " + lastName;
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(MessageFormat.format(KYC_VALID_MESSAGE, "John Paul"))
+                .applicationResponse(MessageFormat.format(KYC_VALID_MESSAGE, fullName))
                 .freeflow(Freeflow.FB)
                 .build();
     }

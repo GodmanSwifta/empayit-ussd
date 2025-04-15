@@ -12,16 +12,9 @@ import java.time.LocalDate;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerData {
-    @JsonProperty("phone_number")
     private String phoneNumber;
-    @JsonProperty("id")
-    private String id;
-    @JsonProperty
     private LocalDate dob;
-    @JsonProperty("first_name")
     private String firstName;
-    @JsonProperty("last_name")
     private String lastName;
-    @JsonProperty("user_id")
-    private long userId;
+    private String userId;
 }

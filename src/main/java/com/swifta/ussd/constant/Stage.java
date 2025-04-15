@@ -3,8 +3,8 @@ package com.swifta.ussd.constant;
 public class Stage {
     public static final String MAIN_MENU = "main_menu";
     public static final String INVALID_INPUT = "invalid_input";
-    public static final String RSA_OPTIONS = "rsa_options";
-    public static final String CANCEL = "cancle";
+    public static final String ACKNOWLEDGMENT_OPTIONS = "rsa_options";
+    public static final String CANCEL = "cancel";
     public static final String T_AND_C = "t_and_c";
     public static final String T_AND_C_DECLINE = "t_and_c_decline";
     public static final String DOB = "dob";
@@ -19,7 +19,7 @@ public class Stage {
     public static final String SPORT = "sport";
     public static final String SPORT_EVENT = "sport_event";
     public static final String SPORT_CATEGORY = "sport_category";
-    public static final String TICKET_MODE = "ticket_mode";
+    public static final String TICKET_BOUQUET = "ticket_mode";
     public static final String PHONE = "phone";
     public static final String NUMBER_OF_TICKET = "number_of_tickets";
     public static final String TICKET_CONFIRMATION = "ticket_confirmation";

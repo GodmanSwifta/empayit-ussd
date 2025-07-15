@@ -4,16 +4,13 @@ import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
 import com.swifta.ussd.entity.cache.UssdSession;
 import com.swifta.ussd.service.StageHandler;
-import com.swifta.ussd.serviceClient.UssdProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.swifta.ussd.constant.AppMessages.TICKET_CONFIRMATION_MESSAGE;
-import static com.swifta.ussd.constant.AppMessages.TICKET_LIST_MESSAGE;
+import static com.swifta.ussd.constant.AppMessages.INVALID_AGENT_MESSAGE;
 import static com.swifta.ussd.constant.Stage.*;
 
 @Component
-public class TicketListStageHandler implements StageHandler {
+public class InvalidAgentStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
         session.setCurrentStage(TICKET_RESEND_CONFIRMATION);
@@ -21,15 +18,15 @@ public class TicketListStageHandler implements StageHandler {
 
     @Override
     public String getStage() {
-        return TICKET_LIST;
+        return INVALID_AGENT;
     }
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
-                .applicationResponse(TICKET_LIST_MESSAGE)
-                .freeflow(Freeflow.FC)
+                .applicationResponse(INVALID_AGENT_MESSAGE)
+                .freeflow(Freeflow.FB)
                 .build();
     }
 }

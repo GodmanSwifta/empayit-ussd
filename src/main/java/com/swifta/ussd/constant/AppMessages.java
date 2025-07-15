@@ -38,4 +38,6 @@ public class AppMessages {
     public static final String TICKET_RESEND_CONFIRMATION_MESSAGE = "Please confirm you want to resend to %s\n1. Yes\n2. No";
     public static final String TICKET_SENT_MESSAGE = "Dear Customer,\nYour ticket details has been sent. Thank you for your interest in EmpayIT.";
     public static final String SUPPORT_MESSAGE = "Contact Support on 08073763722";
+    public static final String NO_EVENT_FOUND = "No Event Found";
+    public static final String INVALID_AGENT_MESSAGE = "You are not registered agent";
 }

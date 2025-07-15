@@ -20,9 +20,10 @@ public class PropertyKeys {
     public static final String PAGE_NO = "page_no";
     public static final String EVENT_TYPE_VALUE = "event_type_value";
     public static final String TICKET_COUNT = "ticket_count";
-    public static final String BOUQUET_NAME = "event_name";
+    public static final String BOUQUET_NAME = "bouquet_name";
     public static final String BOUQUET_OPTION_VALUE = "bouquet_option_value";
     public static final String AMOUNT = "amount";
     public static final String TRANSACTION_REFERENCE = "transaction_reference";
     public static final String TRANSACTION_ID = "transaction_id";
+    public static final String BUYER_ID = "buyer_id";
 }

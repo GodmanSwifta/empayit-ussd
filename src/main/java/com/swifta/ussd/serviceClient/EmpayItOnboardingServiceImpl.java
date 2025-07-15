@@ -1,15 +1,14 @@
 package com.swifta.ussd.serviceClient;
 
 
+import com.swifta.ussd.dto.AgentData;
 import com.swifta.ussd.dto.CustomerData;
 import com.swifta.ussd.dto.request.CreateCustomerRequest;
 //import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
@@ -46,8 +45,20 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
             }
             throw new RuntimeException("API Error: " + ex.getMessage());
         }
+        return responseEntity.getBody();
+    }
 
-
+    @Override
+    public AgentData validateAgentByPhone(String phoneNumber) {
+        String url = coreBaseUrl.concat("/agents/phone/").concat(phoneNumber);
+        HttpEntity<String> request = new HttpEntity<>(null,getHeaders(""));
+        ResponseEntity<AgentData> responseEntity;
+        try{
+            responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
+                    new ParameterizedTypeReference<AgentData>() {});
+        }catch (HttpClientErrorException ex) {
+            return null;
+        }
         return responseEntity.getBody();
     }
 

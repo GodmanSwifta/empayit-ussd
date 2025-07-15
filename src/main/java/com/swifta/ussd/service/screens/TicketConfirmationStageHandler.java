@@ -40,9 +40,10 @@ public class TicketConfirmationStageHandler implements StageHandler {
         CreateTransactionResponse transaction = ussdProductService.createTransaction(CreateTransactionRequest.builder()
                 .type(buyerType)
                 .ticketCount(Integer.parseInt(session.getData(TICKET_COUNT)))
-                .buyerId(session.getData(CUSTOMER_ID))
+                .buyerId(session.getData(BUYER_ID))
                 .eventId(session.getData(EVENT_OPTION_VALUE))
                 .bouquetId(session.getData(BOUQUET_OPTION_VALUE))
+                .agentCustomerMsisdn(buyerType == BuyerType.AGENT ? session.getData(PHONE) : null)
                 .build());
         session.setData(TRANSACTION_REFERENCE, transaction.getReference());
         session.setData(TRANSACTION_ID, transaction.getTransactionId());
@@ -60,6 +61,7 @@ public class TicketConfirmationStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+        System.out.println("iss2: "+session.getData(EVENT_NAME));
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(String.format(TICKET_CONFIRMATION_MESSAGE,

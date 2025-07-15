@@ -65,8 +65,6 @@ public class UssdProductServiceImpl implements UssdProductService {
             }
             throw new RuntimeException(ex.getMessage());
         }
-
-        return;
     }
 
 
@@ -75,20 +73,17 @@ public class UssdProductServiceImpl implements UssdProductService {
         String url = coreBaseUrl.concat("/event-types");
         HttpEntity request = new HttpEntity(null, getHeaders(""));
         ResponseEntity<List<EventTypeData>> responseEntity;
-        if (eventType.isEmpty()) {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<List<EventTypeData>>() {
                         });
-                eventType = responseEntity.getBody();
+                return responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                     return null;
                 }
                 throw new RuntimeException(ex.getMessage());
             }
-        }
-        return eventType;
     }
 
     @Override
@@ -96,20 +91,17 @@ public class UssdProductServiceImpl implements UssdProductService {
         String url = coreBaseUrl.concat("/events/" + eventType + "?type");
         HttpEntity request = new HttpEntity<>(null, getHeaders(eventType));
         ResponseEntity<List<EventData>> responseEntity;
-        if (event.isEmpty()) {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<List<EventData>>() {
                         });
-                event = responseEntity.getBody();
+                return responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                     return null;
                 }
                 throw new RuntimeException(ex.getMessage());
             }
-        }
-        return event;
     }
 
     @Override
@@ -117,27 +109,24 @@ public class UssdProductServiceImpl implements UssdProductService {
         String url = coreBaseUrl.concat("/tickets/" + eventId + "?id");
         HttpEntity request = new HttpEntity<>(null, getHeaders(eventId));
         ResponseEntity<List<TicketBouquetData>> responseEntity;
-        if (ticketBouquet.isEmpty()) {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<List<TicketBouquetData>>() {
                         });
-                ticketBouquet = responseEntity.getBody();
+                return responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                     return null;
                 }
                 throw new RuntimeException(ex.getMessage());
             }
-        }
-        return ticketBouquet;
     }
 
     @Override
     public CreateTransactionResponse createTransaction(CreateTransactionRequest transactionRequest) {
         String url = coreBaseUrl.replace("/empayit", "").concat("/transactions/create");
         HttpEntity<CreateTransactionRequest> httpEntity = new HttpEntity<>(transactionRequest, getHeaders(""));
-        ResponseEntity<CreateTransactionResponse> responseEntity;
+        ResponseEntity<AppSuccessResponse<CreateTransactionResponse>> responseEntity;
         try {
             responseEntity = restOperations.exchange(
                     url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
@@ -146,7 +135,7 @@ public class UssdProductServiceImpl implements UssdProductService {
             throw new RuntimeException(ex.getMessage());
         }
 
-        return responseEntity.getBody();
+        return responseEntity.getBody().getData();
     }
 
     @Override
@@ -176,20 +165,17 @@ public class UssdProductServiceImpl implements UssdProductService {
         HttpEntity<UssdTransactionFilter> request =
                 new HttpEntity<>(filterRequest, getHeaders(merchantId));
         ResponseEntity<Page<UssdTransaction>> responseEntity;
-        if (transactions.isEmpty()) {
             try {
                 responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                         new ParameterizedTypeReference<Page<UssdTransaction>>() {
                         });
-                transactions = responseEntity.getBody();
+                return responseEntity.getBody();
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                     return null;
                 }
                 throw new RuntimeException(ex.getMessage());
             }
-        }
-        return transactions;
     }
 
     @Override

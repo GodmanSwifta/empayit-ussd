@@ -16,19 +16,29 @@ public class PhoneStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
 
-        String phone = session.getUssdInput();
+        String phone = session.getUssdInput().trim();
         if(isValid(phone)) {
             session.setData(PHONE_RETRY, "false");
+//            session.setData(PHONE, phone.replaceFirst("0", "234"));
+            session.setData(PHONE, phone);
             session.setCurrentStage(getNextStageByFlow(session));
+            return;
         }
         session.setData(PHONE_RETRY, "true");
+
+
     }
-
     private boolean isValid(String phone) {
-
-
+        if (phone.length()!=11) {
+            return false;
+        }
+        if(!phone.startsWith("0")){
+            return false;
+        }
         return true;
     }
+
+
 
     private String getNextStageByFlow(UssdSession session) {
         if(session.getData(FLOW).equalsIgnoreCase("resend_ticket")) {

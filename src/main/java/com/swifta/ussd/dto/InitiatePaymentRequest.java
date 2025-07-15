@@ -12,10 +12,6 @@ import lombok.Data;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InitiatePaymentRequest {
-    @JsonProperty("transaction_id")
     private String transactionId;
-
-    @JsonProperty("Payment_pin")
     private String paymentPin;
-
 }

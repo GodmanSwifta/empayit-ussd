@@ -71,6 +71,8 @@ public class TicketBouquetStageHandler implements StageHandler {
                 session.setCurrentStage(nextStage);
                 cleanUp(session);
 
+                System.out.println("iss-mid: "+session.getData(EVENT_NAME));
+
         }
     }
 

@@ -31,4 +31,5 @@ public class Stage {
     public static final String TICKET_SENT = "ticket_sent";
     public static final String TICKET_RESEND_CONFIRMATION = "ticket_resend_confirmation";
     public static final String SUPPORT = "support";
+    public static final String INVALID_AGENT = "invalid_agent";
 }

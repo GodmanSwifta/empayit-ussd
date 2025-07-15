@@ -7,8 +7,7 @@ import com.swifta.ussd.service.StageHandler;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.NUMBER_OF_TICKET_MESSAGE;
-import static com.swifta.ussd.constant.PropertyKeys.NUMBER_OF_TICKET_RETRY;
-import static com.swifta.ussd.constant.PropertyKeys.TICKET_COUNT;
+import static com.swifta.ussd.constant.PropertyKeys.*;
 import static com.swifta.ussd.constant.Stage.NUMBER_OF_TICKET;
 import static com.swifta.ussd.constant.Stage.TICKET_CONFIRMATION;
 

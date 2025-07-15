@@ -1,5 +1,7 @@
 package com.swifta.ussd.service.screens;
 
+import com.swifta.ussd.constant.AppMessages;
+import com.swifta.ussd.dto.EventData;
 import com.swifta.ussd.dto.EventOptionData;
 import com.swifta.ussd.dto.Freeflow;
 import com.swifta.ussd.dto.USSDResponse;
@@ -63,7 +65,6 @@ public class EventOptionStageHandler implements StageHandler {
                 session.setData(MERCHANT_NAME, selected.getMerchantName());
                 session.setCurrentStage(TICKET_BOUQUET);
                 cleanUp(session);
-
         }
 
     }
@@ -75,25 +76,38 @@ public class EventOptionStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+        String menu = "";
         String page = session.getData(PAGE_NO);
+        Freeflow freeflow = Freeflow.FC;
+
         if (isNull(page)) {
-            setupPageItems(session);
-            session.setData(PAGE_NO, "1");
+            String eventType = session.getData(EVENT_TYPE_VALUE);
+            List<EventData> eventDatas = productService.getEventsByType(eventType);
+            if(!eventDatas.isEmpty()) {
+                setupPageItems(session, eventDatas);
+                session.setData(PAGE_NO, "1");
 
+                int pageNo = isNull(page) ? 1 : Integer.parseInt(page);
+                menu = session.getMenuPageStore().getPage(pageNo);
+            } else {
+                menu = AppMessages.NO_EVENT_FOUND;
+
+            }
+
+        } else {
+            int pageNo = isNull(page) ? 1 : Integer.parseInt(page);
+            menu = session.getMenuPageStore().getPage(pageNo);
+            freeflow = Freeflow.FB;
         }
-
-        int pageNo = isNull(page) ? 1 : Integer.parseInt(page);
-        String menu = session.getMenuPageStore().getPage(pageNo);
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(menu)
-                .freeflow(Freeflow.FC)
+                .freeflow(freeflow)
                 .build();
     }
 
-    private void setupPageItems(UssdSession session) {
-        String eventType = session.getData(EVENT_TYPE_VALUE);
-        List<EventOptionData> eventOptions = productService.getEventsByType(eventType).stream()
+    private void setupPageItems(UssdSession session, List<EventData> eventDatas) {
+        List<EventOptionData> eventOptions = eventDatas.stream()
                 .map(eventData -> new EventOptionData(eventData))
                 .collect(Collectors.toList());
 
@@ -105,6 +119,40 @@ public class EventOptionStageHandler implements StageHandler {
         );
         session.setMenuPageStore(store);
     }
+
+
+//    @Override
+//    public USSDResponse loadPage(UssdSession session) {
+//        String page = session.getData(PAGE_NO);
+//        if (isNull(page)) {
+//            setupPageItems(session);
+//            session.setData(PAGE_NO, "1");
+//
+//        }
+//
+//        int pageNo = isNull(page) ? 1 : Integer.parseInt(page);
+//        String menu = session.getMenuPageStore().getPage(pageNo);
+//        return USSDResponse.builder()
+//                .msisdn(session.getMsisdn())
+//                .applicationResponse(menu)
+//                .freeflow(Freeflow.FC)
+//                .build();
+//    }
+//
+//    private void setupPageItems(UssdSession session) {
+//        String eventType = session.getData(EVENT_TYPE_VALUE);
+//        List<EventOptionData> eventOptions = productService.getEventsByType(eventType).stream()
+//                .map(eventData -> new EventOptionData(eventData))
+//                .collect(Collectors.toList());
+//
+//        MenuPageStore store = new MenuPageStore(
+//                EVENT_OPTION_MESSAGE,
+//                eventOptions.stream()
+//                        .map(EventOptionMenuModel::new)
+//                        .collect(Collectors.toList())
+//        );
+//        session.setMenuPageStore(store);
+//    }
 
 
     private void cleanUp(UssdSession session) {

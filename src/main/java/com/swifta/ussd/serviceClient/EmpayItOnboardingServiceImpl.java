@@ -50,7 +50,6 @@ public class EmpayItOnboardingServiceImpl implements EmpayItOnboardingService{
 
     @Override
     public AgentData validateAgentByPhone(String phoneNumber) {
-//        String url = coreBaseUrl.concat("/agent/phone/").concat(phoneNumber);
         String url = coreBaseUrl.concat("/agent?phone=").concat(phoneNumber);
         HttpEntity<String> request = new HttpEntity<>(null,getHeaders(""));
         ResponseEntity<AgentData> responseEntity;

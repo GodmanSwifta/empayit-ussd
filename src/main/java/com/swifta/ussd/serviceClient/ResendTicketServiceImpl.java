@@ -2,6 +2,7 @@ package com.swifta.ussd.serviceClient;
 
 
 import com.swifta.ussd.dto.CustomerData;
+import com.swifta.ussd.dto.ResendTicketResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
+
+import java.util.List;
 
 @Service
 public class ResendTicketServiceImpl implements ResendTicketService {
@@ -23,15 +26,15 @@ public class ResendTicketServiceImpl implements ResendTicketService {
 
 
     @Override
-    public CustomerData resendTicket(String phoneNumber) {
+    public List<ResendTicketResponse> resendTicket(String phoneNumber) {
         String url = coreBaseUrl.concat("/confirm-resend").concat(phoneNumber);
         HttpEntity<String> request = new HttpEntity<>(null, getHeaders(""));
 
-        ResponseEntity<CustomerData> responseEntity;
+        ResponseEntity<List<ResendTicketResponse>> responseEntity;
 
         try {
             responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
-                    new ParameterizedTypeReference<CustomerData>() {
+                    new ParameterizedTypeReference<List<ResendTicketResponse>>() {
                     });
 
         } catch (HttpClientErrorException ex) {

@@ -8,26 +8,34 @@ import com.swifta.ussd.serviceClient.ResendTicketService;
 import org.springframework.stereotype.Component;
 
 import static com.swifta.ussd.constant.AppMessages.TICKET_RESEND_CONFIRMATION_MESSAGE;
-import static com.swifta.ussd.constant.Stage.TICKET_RESEND_CONFIRMATION;
-import static com.swifta.ussd.constant.Stage.TICKET_SENT;
+import static com.swifta.ussd.constant.Stage.*;
 
 @Component
 public class TicketResendConfirmationStageHandler implements StageHandler {
-    private final ResendTicketService resendTicketService;
 
-    public TicketResendConfirmationStageHandler(ResendTicketService resendTicketService) {
-        this.resendTicketService = resendTicketService;
-    }
 
     @Override
     public void processStage(UssdSession session) {
-        String phoneNumber = session.getMsisdn();
-        try{
-            resendTicketService.resendTicket(phoneNumber);
-        } catch (Exception e) {
-            throw new RuntimeException("Ticket resend failed");
+        int input = Integer.parseInt(session.getUssdInput());
+        if(input< 0){
+            session.setCurrentStage(INVALID_INPUT);
+            return;
         }
-        session.setCurrentStage(TICKET_SENT);
+
+        switch(input){
+            case 1:
+                session.setCurrentStage(TICKET_SENT);
+                break;
+            case 2:
+                session.setCurrentStage(MAIN_MENU);
+                break;
+            default:
+                session.setCurrentStage(INVALID_INPUT);
+                break;
+        }
+
+
+
     }
 
     @Override
@@ -37,6 +45,8 @@ public class TicketResendConfirmationStageHandler implements StageHandler {
 
     @Override
     public USSDResponse loadPage(UssdSession session) {
+        String phone = session.getData(PHONE);
+
         return USSDResponse.builder()
                 .msisdn(session.getMsisdn())
                 .applicationResponse(String.format(TICKET_RESEND_CONFIRMATION_MESSAGE, session.getMsisdn()))

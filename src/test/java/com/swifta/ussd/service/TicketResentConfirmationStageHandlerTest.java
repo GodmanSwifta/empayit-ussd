@@ -18,11 +18,11 @@ import static org.mockito.Mockito.mock;
 public class TicketResentConfirmationStageHandlerTest {
 
     private TicketResendConfirmationStageHandler ticketResendConfirmationStageHandler;
-    private ResendTicketService resendTicketService;
+//    private ResendTicketService resendTicketService;
     @Before
     public void setUp() throws Exception {
-        resendTicketService = mock(ResendTicketService.class);
-        ticketResendConfirmationStageHandler = new TicketResendConfirmationStageHandler(resendTicketService);
+//        resendTicketService = mock(ResendTicketService.class);
+        ticketResendConfirmationStageHandler = new TicketResendConfirmationStageHandler();
     }
 
     @Test

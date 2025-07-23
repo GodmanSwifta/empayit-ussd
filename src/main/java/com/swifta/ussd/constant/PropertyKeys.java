@@ -26,4 +26,7 @@ public class PropertyKeys {
     public static final String TRANSACTION_REFERENCE = "transaction_reference";
     public static final String TRANSACTION_ID = "transaction_id";
     public static final String BUYER_ID = "buyer_id";
+    public static final String CUSTOMER_NAME = "customer_name";
+    public static final String SELECTION_TICKET_ID= "selection_ticket_id";
+
 }

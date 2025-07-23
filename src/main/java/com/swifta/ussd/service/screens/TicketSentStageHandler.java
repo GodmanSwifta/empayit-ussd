@@ -14,7 +14,7 @@ import static com.swifta.ussd.constant.Stage.*;
 public class TicketSentStageHandler implements StageHandler {
     @Override
     public void processStage(UssdSession session) {
-        session.setCurrentStage(MAIN_MENU);
+        session.setCurrentStage(null);
     }
 
     @Override

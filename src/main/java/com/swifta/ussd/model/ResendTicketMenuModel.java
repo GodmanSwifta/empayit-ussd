@@ -3,6 +3,7 @@ package com.swifta.ussd.model;
 import com.swifta.ussd.dto.ResendTicketResponse;
 
 public class ResendTicketMenuModel  implements MenuPageModel{
+
     private ResendTicketResponse resendTicket;
 
     public ResendTicketMenuModel() {
@@ -13,12 +14,12 @@ public class ResendTicketMenuModel  implements MenuPageModel{
     }
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T getObject() {
-        return null;
+    public ResendTicketResponse getObject() {
+        return resendTicket;
     }
 
     @Override
     public String getStringValue() {
-        return "";
+        return  "Ticket ID/" + resendTicket.getTicketId() + "/" + resendTicket.getEventName();
     }
 }

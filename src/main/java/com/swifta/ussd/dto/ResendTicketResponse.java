@@ -4,7 +4,7 @@ public class ResendTicketResponse {
     private long id;
     private String ticketId;
     private String name;
-//    private Event eventName;
+    private String eventName;
 
 
     public long getId() {
@@ -29,5 +29,13 @@ public class ResendTicketResponse {
 
     public void setTicketId(String ticketId) {
         this.ticketId = ticketId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 }

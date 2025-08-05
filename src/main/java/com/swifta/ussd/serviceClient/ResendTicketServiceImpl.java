@@ -33,7 +33,7 @@ public class ResendTicketServiceImpl implements ResendTicketService {
         ResponseEntity<List<ResendTicketResponse>> responseEntity;
 
         try {
-            responseEntity = restOperations.exchange(url, HttpMethod.POST, request,
+            responseEntity = restOperations.exchange(url, HttpMethod.GET, request,
                     new ParameterizedTypeReference<List<ResendTicketResponse>>() {
                     });
 

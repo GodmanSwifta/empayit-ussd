@@ -58,6 +58,10 @@ public class TicketListStageHandler implements StageHandler {
               break;
           default:
               ResendTicketResponse selected =session.getMenuPageStore().getMenuPageModel(input).getObject();
+              if(selected == null){
+                  session.setCurrentStage(INVALID_INPUT);
+                  return;
+              }
               session.setData(SELECTION_TICKET_ID, selected.getTicketId());
               session.setData(CUSTOMER_NAME, selected.getName());
               session.setCurrentStage(TICKET_RESEND_CONFIRMATION);
@@ -93,6 +97,11 @@ public class TicketListStageHandler implements StageHandler {
     private void setupPageItems(UssdSession session){
         String phone = session.getData(PHONE);
         List<ResendTicketResponse> tickets = resendTicketService.resendTicket(phone);
+
+        if (tickets == null || tickets.isEmpty()) {
+            throw new RuntimeException("Ticket not available");
+        }
+
         MenuPageStore store = new MenuPageStore(
                 TICKET_LIST_MESSAGE,
                 tickets.stream()

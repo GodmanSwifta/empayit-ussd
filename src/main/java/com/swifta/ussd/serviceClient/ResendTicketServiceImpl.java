@@ -27,7 +27,7 @@ public class ResendTicketServiceImpl implements ResendTicketService {
 
     @Override
     public List<ResendTicketResponse> resendTicket(String phoneNumber) {
-        String url = coreBaseUrl.concat("/confirm-resend").concat(phoneNumber);
+        String url = coreBaseUrl + "/confirm-resend/" + phoneNumber;
         HttpEntity<String> request = new HttpEntity<>(null, getHeaders(""));
 
         ResponseEntity<List<ResendTicketResponse>> responseEntity;

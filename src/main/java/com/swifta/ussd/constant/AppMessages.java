@@ -35,7 +35,7 @@ public class AppMessages {
     public static final String SMS_TICKET_CONFIRMATION_MESSAGE = "SMS Ticket Confirmation";
     public static final String PHONE_RETRY_MESSAGE = "Dear Customer\n\nPlease enter a valid Phone number";
     public static final String TICKET_LIST_MESSAGE = "Event Ticket ID:";
-    public static final String TICKET_RESEND_CONFIRMATION_MESSAGE = "Please confirm you want to resend to %s\n1. Yes\n2. No";
+    public static final String TICKET_RESEND_CONFIRMATION_MESSAGE = "Please confirm you want to resend the ticket for '%s' to %s\n1. Yes\n2. No";
     public static final String TICKET_SENT_MESSAGE = "Dear Customer,\nYour ticket details has been sent. Thank you for your interest in EmpayIT.";
     public static final String SUPPORT_MESSAGE = "Contact Support on 08073763722";
     public static final String NO_EVENT_FOUND = "No Event Found";

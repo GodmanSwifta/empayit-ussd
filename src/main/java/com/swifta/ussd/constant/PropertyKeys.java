@@ -29,4 +29,7 @@ public class PropertyKeys {
     public static final String CUSTOMER_NAME = "customer_name";
     public static final String SELECTION_TICKET_ID= "selection_ticket_id";
 
+
+    public static final String PAYMENT_SHORT_CODE = "payment_short_code";
+
 }

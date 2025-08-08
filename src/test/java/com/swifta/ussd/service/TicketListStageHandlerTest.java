@@ -6,6 +6,7 @@ import com.swifta.ussd.mock.MockGenerator;
 import com.swifta.ussd.service.screens.TicketListStageHandler;
 import com.swifta.ussd.service.screens.TicketResendConfirmationStageHandler;
 import com.swifta.ussd.serviceClient.ResendTicketService;
+import com.swifta.ussd.serviceClient.SmsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +21,11 @@ public class TicketListStageHandlerTest {
 
     private TicketListStageHandler ticketListStageHandler;
     private ResendTicketService resendTicketService;
+    private SmsService smsService;
     @Before
     public void setUp() throws Exception {
         resendTicketService = mock(ResendTicketService.class);
-        ticketListStageHandler = new TicketListStageHandler(resendTicketService);
+        ticketListStageHandler = new TicketListStageHandler(resendTicketService, smsService);
     }
 
     @Test

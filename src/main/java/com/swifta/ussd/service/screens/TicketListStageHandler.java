@@ -9,6 +9,7 @@ import com.swifta.ussd.model.MenuPageStore;
 import com.swifta.ussd.model.ResendTicketMenuModel;
 import com.swifta.ussd.service.StageHandler;
 import com.swifta.ussd.serviceClient.ResendTicketService;
+import com.swifta.ussd.serviceClient.SmsService;
 import com.swifta.ussd.serviceClient.UssdProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,9 +26,11 @@ import static java.util.Objects.isNull;
 @Component
 public class TicketListStageHandler implements StageHandler {
     private final ResendTicketService resendTicketService;
+    private final SmsService smsService;
 
-    public TicketListStageHandler( ResendTicketService resendTicketService) {
+    public TicketListStageHandler( ResendTicketService resendTicketService, SmsService smsService) {
         this.resendTicketService = resendTicketService;
+        this.smsService = smsService;
     }
 
     @Override
@@ -64,6 +67,7 @@ public class TicketListStageHandler implements StageHandler {
               }
               session.setData(SELECTION_TICKET_ID, selected.getTicketId());
               session.setData(CUSTOMER_NAME, selected.getName());
+              //smsService.sendPaymentSms(session);
               session.setCurrentStage(TICKET_RESEND_CONFIRMATION);
               cleanUp(session);
       }
